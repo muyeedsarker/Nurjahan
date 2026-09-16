@@ -1,14 +1,7 @@
-const CACHE = 'nurjahan-v5';
-const APP_SHELL = ['./','./index.html','./packages.html','./payment.html','./admin.html','./live.html','./features.html','./ai-chat.html','./firebase-config.js','./ai-support.js','./feature-catalog.js','./ai-builder-engine.js'];
-self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(APP_SHELL)).then(() => self.skipWaiting())));
-self.addEventListener('activate', e => e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
-self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  const url = new URL(e.request.url);
-  if (url.origin !== location.origin) return;
-  e.respondWith(caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-    const copy = res.clone();
-    caches.open(CACHE).then(c => c.put(e.request, copy));
-    return res;
-  }).catch(() => caches.match('./index.html'))));
-});
+const CACHE='nurjahan-v6';
+const APP_SHELL=['./','./index.html','./packages.html','./payment.html','./admin.html','./live.html','./features.html','./ai-chat.html','./premium-pages.css','./firebase-config.js','./ai-support.js','./feature-catalog.js','./ai-builder-engine.js'];
+const PREMIUM=['packages.html','payment.html','features.html','live.html'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(APP_SHELL)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+async function premiumResponse(res){try{const html=await res.text();const out=html.replace('</head>','<link rel="stylesheet" href="./premium-pages.css"></head>');return new Response(out,{status:res.status,statusText:res.statusText,headers:{'Content-Type':'text/html; charset=utf-8'}})}catch{return res}}
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const url=new URL(e.request.url);if(url.origin!==location.origin)return;e.respondWith(caches.match(e.request).then(async cached=>{let res=cached||await fetch(e.request);if(PREMIUM.some(p=>url.pathname.endsWith('/'+p)||url.pathname===p))res=await premiumResponse(res);if(!cached){const copy=res.clone();caches.open(CACHE).then(c=>c.put(e.request,copy))}return res}).catch(()=>caches.match('./index.html')))});
