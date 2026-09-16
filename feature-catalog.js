@@ -42,3 +42,29 @@ export function getBusinessFeatures(type='Other') {
   const groups = NURJAHAN_BUSINESS_PRESETS[type] || NURJAHAN_BUSINESS_PRESETS.Other;
   return [...new Set(groups.flatMap(g => NURJAHAN_FEATURES[g] || []))];
 }
+
+// AI → Builder bridge. The Builder already imports this catalog, so no large index.html rewrite is needed.
+function applySavedAIIntent(){
+  const raw=localStorage.getItem('nurjahanBuilderIntent');
+  if(!raw)return;
+  try{
+    const intent=JSON.parse(raw)||{};
+    const select=document.getElementById('type');
+    if(select){
+      const target=intent.type==='Other'?'অন্যান্য':intent.type;
+      const option=[...select.options].find(o=>o.value===target||o.textContent.trim()===target);
+      if(option){
+        select.value=option.value;
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+    }
+    const name=document.getElementById('name');
+    if(name && !name.value && intent.type && intent.type!=='Other') name.value=intent.type+' Website';
+    const desc=document.getElementById('description');
+    if(desc && !desc.value && intent.query) desc.value=intent.query;
+    localStorage.removeItem('nurjahanBuilderIntent');
+  }catch(e){console.warn('AI Builder intent ignored',e)}
+}
+
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',applySavedAIIntent,{once:true});
+else applySavedAIIntent();
