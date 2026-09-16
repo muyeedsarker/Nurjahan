@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Nurjahan.com — Camera Post</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}.wrap{max-width:720px;margin:auto;padding:16px}.head{background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 8px 30px #17203312}.head h1{margin:0 0 5px;font-size:25px}.head p{margin:0;color:#64748b;font-size:14px}.camera{background:#111827;border-radius:24px;overflow:hidden;box-shadow:0 18px 55px #17203325}.stage{position:relative;background:#05070b;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}.stage video,.stage canvas{width:100%;height:100%;object-fit:cover;display:block}.stage canvas{display:none}.hint{position:absolute;left:12px;right:12px;bottom:12px;padding:9px 12px;border-radius:12px;background:#0009;color:#fff;font-size:12px;text-align:center}.controls{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:10px;padding:14px}.btn{border:0;border-radius:14px;padding:14px;font-weight:900;font-size:15px;cursor:pointer;background:#fff;color:#111827}.capture{background:#2563eb;color:#fff}.btn:disabled{opacity:.45}.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.tools label,.tools button{padding:13px;border:1px solid #dbe2ea;border-radius:14px;background:#fff;text-align:center;font-weight:800;cursor:pointer}.tools input{display:none}.post{margin-top:14px;background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:16px;box-shadow:0 8px 30px #17203312}.post textarea{width:100%;min-height:90px;border:1px solid #dbe2ea;border-radius:14px;padding:12px;font:inherit;resize:vertical}.preview{display:none;margin-top:12px;border-radius:16px;overflow:hidden;background:#eef2f7}.preview img{display:block;width:100%;height:auto}.publish{width:100%;margin-top:10px;border:0;border-radius:14px;padding:14px;background:#111827;color:#fff;font-weight:900;font-size:16px}.status{font-size:13px;color:#64748b;margin-top:9px;text-align:center}.back{display:inline-block;margin-bottom:12px;color:#2563eb;text-decoration:none;font-weight:800}@media(max-width:500px){.wrap{padding:10px}.controls{gap:7px;padding:10px}.btn{padding:12px 7px;font-size:14px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="back" href="index.html">← Nurjahan.com</a>
+<section class="head"><h1>📷 সরাসরি ছবি তুলুন</h1><p>মোবাইল ক্যামেরা দিয়ে ছবি তুলে আগে দেখুন, তারপর পোস্ট করুন।</p></section>
+<section class="camera">
+<div class="stage"><video id="video" autoplay playsinline muted></video><canvas id="canvas"></canvas><div class="hint" id="hint">ক্যামেরা চালু করতে অনুমতি দিন</div></div>
+<div class="controls">
+<button class="btn" id="flip">🔄 ক্যামেরা</button>
+<button class="btn capture" id="capture">● ছবি তুলুন</button>
+<button class="btn" id="retake" disabled>↩ আবার</button>
+</div>
+</section>
+<div class="tools"><label>🖼️ Gallery<input id="file" type="file" accept="image/*"></label><button id="start">📷 Camera চালু</button></div>
+<section class="post"><textarea id="caption" placeholder="ছবির সাথে কিছু লিখুন…"></textarea><div class="preview" id="preview"><img id="photo" alt="Captured photo"></div><button class="publish" id="publish" disabled>📤 Post করুন</button><div class="status" id="status">ছবি তুললে এখানে পোস্ট করার অপশন আসবে।</div></section>
+</main>
+<script>
+const video=document.getElementById('video'),canvas=document.getElementById('canvas'),photo=document.getElementById('photo');
+const capture=document.getElementById('capture'),retake=document.getElementById('retake'),flip=document.getElementById('flip'),start=document.getElementById('start'),file=document.getElementById('file'),publish=document.getElementById('publish'),preview=document.getElementById('preview'),hint=document.getElementById('hint'),status=document.getElementById('status');
+let stream=null, facing='environment', imageData='';
+async function startCamera(){
+ try{
+  if(stream) stream.getTracks().forEach(t=>t.stop());
+  stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:1920},height:{ideal:1080},aspectRatio:{ideal:16/9}},audio:false});
+  video.style.display='block';canvas.style.display='none';video.srcObject=stream;hint.textContent='ক্যামেরা প্রস্তুত • ছবি তুলুন';
+ }catch(e){hint.textContent='ক্যামেরা চালু হয়নি: Permission অনুমতি দিন';status.textContent='Camera ব্যবহার করতে HTTPS এবং browser permission প্রয়োজন।';}
+}
+function showImage(src){imageData=src;photo.src=src;preview.style.display='block';publish.disabled=false;status.textContent='ছবি প্রস্তুত। Post চাপলে এই ডিভাইসের Nurjahan Camera feed-এ সংরক্ষণ হবে।';}
+capture.onclick=()=>{if(!stream)return;const w=video.videoWidth||1280,h=video.videoHeight||720;const max=1600,s=Math.min(1,max/w);canvas.width=Math.round(w*s);canvas.height=Math.round(h*s);canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);showImage(canvas.toDataURL('image/jpeg',.88));video.style.display='none';canvas.style.display='block';retake.disabled=false;};
+retake.onclick=()=>{preview.style.display='none';publish.disabled=true;imageData='';video.style.display='block';canvas.style.display='none';hint.textContent='ক্যামেরা প্রস্তুত';};
+flip.onclick=()=>{facing=facing==='environment'?'user':'environment';startCamera();};
+start.onclick=startCamera;
+file.onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>showImage(r.result);r.readAsDataURL(f);};
+publish.onclick=()=>{if(!imageData)return;const posts=JSON.parse(localStorage.getItem('nurjahanCameraPosts')||'[]');posts.unshift({image:imageData,caption:document.getElementById('caption').value.trim(),createdAt:new Date().toISOString()});localStorage.setItem('nurjahanCameraPosts',JSON.stringify(posts.slice(0,20)));status.textContent='✅ Post সংরক্ষণ হয়েছে।';publish.disabled=true;};
+if(navigator.mediaDevices?.getUserMedia) startCamera(); else hint.textContent='এই browser-এ Camera API সমর্থিত নয়';
+window.addEventListener('pagehide',()=>stream?.getTracks().forEach(t=>t.stop()));
+</script>
+</body></html>
