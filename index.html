@@ -1,48 +1,28 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Nurjahan.com — Website AI</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:#f4f7fb;color:#172033}.wrap{max-width:960px;margin:auto;padding:16px}.hero{background:linear-gradient(135deg,#111827,#2563eb);color:#fff;border-radius:22px;padding:24px;margin-bottom:16px;box-shadow:0 12px 30px #0002}.hero h1{margin:0 0 6px;font-size:28px}.card{background:#fff;border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 8px 28px #0001}label{display:block;font-weight:750;margin:12px 0 6px}input,select,textarea{width:100%;padding:13px;border:1px solid #d7deea;border-radius:11px;font-size:16px;background:#fff}textarea{min-height:100px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}button{padding:13px;border:0;border-radius:11px;font-size:15px;font-weight:800;background:#2563eb;color:#fff;cursor:pointer}.secondary{background:#0f172a}.success{background:#16a34a}.hint{font-size:13px;color:#64748b;margin-top:5px}.other{display:none}.preview{display:none;border:1px solid #dde3ee;border-radius:16px;overflow:hidden;background:#fff}.head{background:linear-gradient(135deg,#0f172a,#2563eb);color:#fff;padding:28px}.head h2{margin:0 0 5px}.body{padding:18px}.box{background:#f7f9fc;border-radius:13px;padding:15px;margin:10px 0}.call{display:inline-block;background:#16a34a;color:#fff;padding:11px 16px;border-radius:10px;text-decoration:none;font-weight:800}.status{font-size:13px;color:#475569;margin-top:10px}.saved{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;padding:10px;border-radius:10px;display:none;margin-top:10px}@media(max-width:650px){.row,.actions{grid-template-columns:1fr}.hero h1{font-size:24px}}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Nurjahan.com — Website AI</title>
+<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:#f4f7fb;color:#172033}.wrap{max-width:960px;margin:auto;padding:16px}.hero{background:linear-gradient(135deg,#111827,#2563eb);color:#fff;border-radius:22px;padding:24px;margin-bottom:16px;box-shadow:0 12px 30px #0002}.hero h1{margin:0 0 6px;font-size:28px}.card{background:#fff;border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 8px 28px #0001}label{display:block;font-weight:750;margin:12px 0 6px}input,select,textarea{width:100%;padding:13px;border:1px solid #d7deea;border-radius:11px;font-size:16px;background:#fff}textarea{min-height:100px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}button{padding:13px;border:0;border-radius:11px;font-size:15px;font-weight:800;background:#2563eb;color:#fff;cursor:pointer}.secondary{background:#0f172a}.success{background:#16a34a}.status{font-size:13px;color:#475569;margin-top:10px}.saved{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;padding:10px;border-radius:10px;display:none;margin-top:10px}.other{display:none}.preview{display:none;border:1px solid #dde3ee;border-radius:16px;overflow:hidden;background:#fff}.head{background:linear-gradient(135deg,#0f172a,#2563eb);color:#fff;padding:28px}.head h2{margin:0 0 5px}.body{padding:18px}.box{background:#f7f9fc;border-radius:13px;padding:15px;margin:10px 0}.call{display:inline-block;background:#16a34a;color:#fff;padding:11px 16px;border-radius:10px;text-decoration:none;font-weight:800}@media(max-width:650px){.row,.actions{grid-template-columns:1fr}.hero h1{font-size:24px}}</style>
 </head>
-<body>
-<main class="wrap">
+<body><main class="wrap">
 <section class="hero"><h1>🌐 Nurjahan.com</h1><div>AI Website Builder — আপনার তথ্য দিন, Preview তৈরি করুন এবং Save/Publish করুন।</div></section>
-<section class="card">
-<h2>✨ Website তৈরি করুন</h2>
-<div class="row">
-<div><label>ব্যবসা/প্রতিষ্ঠানের নাম</label><input id="name" placeholder="যেমন: Muyeed Pharmacy"></div>
-<div><label>মোবাইল নম্বর</label><input id="phone" inputmode="tel" placeholder="01XXXXXXXXX"></div>
-</div>
-<label>ব্যবসার ধরন</label>
-<select id="type" onchange="toggleOther()">
-<option value="Pharmacy">Pharmacy</option><option value="Restaurant">Restaurant</option><option value="Shop">Shop</option><option value="Professional">Professional</option><option value="Organization">Organization</option><option value="Personal">Personal</option><option value="অন্যান্য">অন্যান্য</option>
-</select>
+<section class="card"><h2>✨ Website তৈরি করুন</h2><div class="row"><div><label>ব্যবসা/প্রতিষ্ঠানের নাম</label><input id="name" placeholder="যেমন: Muyeed Pharmacy"></div><div><label>মোবাইল নম্বর</label><input id="phone" inputmode="tel" placeholder="01XXXXXXXXX"></div></div>
+<label>ব্যবসার ধরন</label><select id="type" onchange="toggleOther()"><option value="Pharmacy">Pharmacy</option><option value="Restaurant">Restaurant</option><option value="Shop">Shop</option><option value="Professional">Professional</option><option value="Organization">Organization</option><option value="Personal">Personal</option><option value="অন্যান্য">অন্যান্য</option></select>
 <div id="otherWrap" class="other"><label>আপনার ব্যবসার ধরন লিখুন</label><input id="otherType" placeholder="যেমন: Beauty & Care"></div>
-<div class="row">
-<div><label>ঠিকানা</label><input id="address" placeholder="Gazipur, Bangladesh"></div>
-<div><label>Website title</label><input id="title" placeholder="আপনার প্রতিষ্ঠানের নাম"></div>
-</div>
-<label>পরিচিতি</label><textarea id="desc" placeholder="প্রতিষ্ঠান সম্পর্কে সংক্ষেপে লিখুন..."></textarea>
-<div class="actions"><button onclick="generate()">✨ Preview</button><button class="secondary" onclick="saveData()">💾 Save</button><button class="success" onclick="publish()">🚀 Publish</button></div>
-<div id="status" class="status"></div><div id="saved" class="saved">✅ তথ্য এই ডিভাইসে Save হয়েছে।</div>
-</section>
-<section class="card"><h2>👀 Website Preview</h2><div id="preview" class="preview"></div></section>
-</main>
-<script>
-const $=id=>document.getElementById(id);
-function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+<div class="row"><div><label>ঠিকানা</label><input id="address" placeholder="Gazipur, Bangladesh"></div><div><label>Website title</label><input id="title" placeholder="আপনার প্রতিষ্ঠানের নাম"></div></div><label>পরিচিতি</label><textarea id="desc" placeholder="প্রতিষ্ঠান সম্পর্কে সংক্ষেপে লিখুন..."></textarea>
+<div class="actions"><button onclick="generate()">✨ Preview</button><button class="secondary" onclick="saveData()">💾 Save</button><button class="success" onclick="publish()">🚀 Publish</button></div><div id="status" class="status"></div><div id="saved" class="saved">✅ Firebase-এ তথ্য Save হয়েছে।</div></section>
+<section class="card"><h2>👀 Website Preview</h2><div id="preview" class="preview"></div></section></main>
+<script type="module">
+import { db } from './firebase-config.js';
+import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+const $=id=>document.getElementById(id); const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 function toggleOther(){ $('otherWrap').style.display=$('type').value==='অন্যান্য'?'block':'none'; }
 function getData(){let type=$('type').value;if(type==='অন্যান্য')type=$('otherType').value.trim()||'অন্যান্য';return{name:$('name').value.trim()||'আপনার প্রতিষ্ঠান',phone:$('phone').value.trim(),type,address:$('address').value.trim()||'বাংলাদেশ',title:$('title').value.trim()||$('name').value.trim()||'Nurjahan.com',desc:$('desc').value.trim()||'আমাদের সেবা সম্পর্কে জানতে যোগাযোগ করুন।'}}
 function services(t){if(t==='Pharmacy')return['ওষুধ ও স্বাস্থ্যসেবা','প্রয়োজনীয় পরামর্শ','সহজ যোগাযোগ'];if(t==='Restaurant')return['সুস্বাদু খাবার','অর্ডার ও যোগাযোগ','দ্রুত সেবা'];if(t==='Shop')return['মানসম্মত পণ্য','অর্ডার ও যোগাযোগ','সহজ সেবা'];if(t==='Professional')return['পেশাদার পরামর্শ','নির্ভরযোগ্য সেবা','সহজ যোগাযোগ'];if(t==='Organization')return['তথ্য ও কার্যক্রম','সহায়তা ও যোগাযোগ','সদস্যসেবা'];if(t==='Personal')return['ব্যক্তিগত তথ্য','যোগাযোগ','প্রয়োজনীয় লিংক'];return['মানসম্মত সেবা','সহযোগিতা ও পরামর্শ','সহজ যোগাযোগ']}
 function generate(){let d=getData(),items=services(d.type);$('preview').style.display='block';$('preview').innerHTML=`<div class="head"><h2>${esc(d.title)}</h2><div>${esc(d.type)}</div></div><div class="body"><div class="box"><h3>আমাদের সম্পর্কে</h3><p>${esc(d.desc)}</p></div><div class="box"><h3>🛠️ সেবাসমূহ</h3><ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div><div class="box"><h3>📍 ঠিকানা</h3><p>${esc(d.address)}</p></div><div class="box"><h3>📞 যোগাযোগ</h3><p>${esc(d.phone||'মোবাইল নম্বর দেওয়া হয়নি')}</p>${d.phone?`<a class="call" href="tel:${esc(d.phone)}">কল করুন</a>`:''}</div></div>`;$('status').textContent='Preview তৈরি হয়েছে।';$('preview').scrollIntoView({behavior:'smooth'})}
-function saveData(){localStorage.setItem('nurjahanWebsiteData',JSON.stringify(getData()));$('saved').style.display='block';$('status').textContent='ডেটা Save করা হয়েছে।'}
+async function saveData(){const d=getData();try{await addDoc(collection(db,'websites'),{...d,createdAt:serverTimestamp(),status:'saved'});$('saved').style.display='block';$('status').textContent='✅ Firebase Firestore-এ তথ্য Save হয়েছে।';localStorage.setItem('nurjahanWebsiteData',JSON.stringify(d));}catch(e){$('status').textContent='❌ Firebase Save হয়নি: '+e.message;}}
+async function publish(){generate();const d=getData();try{await addDoc(collection(db,'websites'),{...d,createdAt:serverTimestamp(),status:'published'});$('status').textContent='🚀 Website data Firebase-এ Publish হিসেবে Save হয়েছে।';localStorage.setItem('nurjahanWebsiteData',JSON.stringify(d));}catch(e){$('status').textContent='❌ Publish হয়নি: '+e.message;}}
 function loadData(){try{let d=JSON.parse(localStorage.getItem('nurjahanWebsiteData'));if(!d)return;$('name').value=d.name==='আপনার প্রতিষ্ঠান'?'':d.name;$('phone').value=d.phone||'';$('address').value=d.address==='বাংলাদেশ'?'':d.address;$('title').value=d.title||'';$('desc').value=d.desc==='আমাদের সেবা সম্পর্কে জানতে যোগাযোগ করুন।'?'':d.desc;let types=['Pharmacy','Restaurant','Shop','Professional','Organization','Personal'];if(types.includes(d.type))$('type').value=d.type;else{$('type').value='অন্যান্য';$('otherType').value=d.type||'';toggleOther()}}catch(e){}}
-function publish(){saveData();generate();$('status').textContent='🚀 Publish প্রস্তুত: Preview-এর তথ্য Save হয়েছে। Firebase/hosting সংযোগ যুক্ত হলে এখান থেকেই live publish করা যাবে।'}
 loadData();
-</script>
-</body>
-</html>
+window.generate=generate;window.saveData=saveData;window.publish=publish;window.toggleOther=toggleOther;
+</script></body></html>
