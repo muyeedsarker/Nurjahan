@@ -1,4 +1,4 @@
-const CACHE='nurjahan-v14';
+const CACHE='nurjahan-v15';
 const APP_SHELL=['./','./index.html','./packages.html','./payment.html','./admin.html','./live.html','./features.html','./ai-chat.html','./camera.html','./premium-pages.css','./ecommerce-theme.css','./firebase-config.js','./ai-support.js','./feature-catalog.js','./ai-builder-engine.js'];
 const PREMIUM=['packages.html','payment.html','features.html','live.html'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(APP_SHELL)).then(()=>self.skipWaiting())));
