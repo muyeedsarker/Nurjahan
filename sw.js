@@ -1,12 +1,55 @@
-const CACHE='nurjahan-v19';
+const CACHE='nurjahan-v20';
 const APP_SHELL=['./','./index.html','./packages.html','./payment.html','./admin.html','./live.html','./features.html','./ai-chat.html','./camera.html','./customer-chat.html','./premium-pages.css','./ecommerce-theme.css','./theme-system.js','./firebase-config.js','./ai-support.js','./feature-catalog.js','./ai-builder-engine.js'];
 const PREMIUM=['packages.html','payment.html','features.html','live.html'];
-const THEME_LIST=[['ocean','🌊 Ocean'],['royal','👑 Royal'],['emerald','🌿 Emerald'],['tech','⚫ Tech'],['galaxy','✨ Galaxy'],['sunset','🌅 Sunset'],['diamond','💎 Diamond'],['rose','🌸 Rose'],['coffee','☕ Coffee'],['aurora','🌌 Aurora'],['luxury','🏆 Luxury Gold'],['ice','🧊 Ice Blue'],['neon','🔥 Neon'],['midnight','🌙 Midnight'],['coral','🌺 Coral']];
-const COLOR_LIST=[['#2563eb','#06b6d4','🔵 Blue'],['#7c3aed','#ec4899','🟣 Purple'],['#059669','#22c55e','🟢 Green'],['#f97316','#eab308','🟠 Orange'],['#e11d48','#f43f5e','🔴 Rose'],['#0891b2','#60a5fa','🩵 Cyan'],['#b7791f','#f59e0b','🟡 Gold'],['#14b8a6','#8b5cf6','🟦 Aurora']];
-const FAB_HTML=`<button id="nj-fab" type="button" aria-label="Nurjahan Quick Menu" aria-expanded="false" aria-controls="nj-fab-panel">☰</button><div id="nj-fab-panel" hidden role="dialog" aria-label="Nurjahan Quick Menu"><div class="nj-fab-head"><b>⚡ Nurjahan Quick Menu</b><button id="nj-fab-close" type="button" aria-label="Close">×</button></div><div class="nj-fab-actions"><button data-act="theme">🎨 Theme</button><button data-act="color">🌈 Color</button><a href="./camera.html">📷 Camera</a><a href="./ai-chat.html">🤖 AI Help</a><a href="./customer-chat.html">💬 Customer Support</a><a href="./packages.html">🛍️ Packages</a><a href="./payment.html">💳 Payment</a><a href="./features.html">✨ Features</a><a href="./live.html">📡 Live</a><a href="./index.html">🏠 Home</a></div><div id="nj-fab-theme" class="nj-fab-sub" hidden><div class="nj-fab-subtitle">🎨 ১৫টি Theme</div><div class="nj-fab-grid">${THEME_LIST.map(([k,n])=>`<button class="nj-quick-theme" type="button" data-theme="${k}">${n}</button>`).join('')}</div></div><div id="nj-fab-color" class="nj-fab-sub" hidden><div class="nj-fab-subtitle">🌈 Quick Colors</div><div class="nj-fab-grid">${COLOR_LIST.map(([a,b,n])=>`<button class="nj-quick-color" type="button" data-a="${a}" data-b="${b}"><i style="background:linear-gradient(135deg,${a},${b})"></i>${n}</button>`).join('')}</div></div></div>`;
-const FAB_CSS=`<style id="nurjahan-fab-css">#nj-fab{position:fixed;right:16px;bottom:18px;z-index:10050;width:52px;height:52px;border:0;border-radius:50%;padding:0!important;background:linear-gradient(135deg,var(--nj-a,#2563eb),var(--nj-b,#06b6d4))!important;color:#fff!important;font-size:22px!important;font-weight:900!important;box-shadow:0 12px 32px rgba(0,0,0,.28);cursor:grab;touch-action:none;user-select:none;transition:transform .2s}#nj-fab:active{cursor:grabbing;transform:scale(.96)}#nj-fab-panel{position:fixed;right:12px;bottom:80px;z-index:10049;width:min(365px,calc(100vw - 24px));max-height:min(76vh,620px);overflow:auto;padding:13px;border:1px solid color-mix(in srgb,var(--nj-a,#2563eb) 30%,#cbd5e1);border-radius:20px;background:color-mix(in srgb,var(--nj-card,#fff) 96%,transparent);box-shadow:0 22px 65px rgba(0,0,0,.25);backdrop-filter:blur(18px)}#nj-fab-panel[hidden],.nj-fab-sub[hidden]{display:none}.nj-fab-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;font:900 14px system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:var(--nj-text,#0f172a)}.nj-fab-head b{flex:1}.nj-fab-head button{width:36px!important;height:36px!important;min-height:36px!important;border-radius:50%!important;padding:0!important;font-size:21px!important}.nj-fab-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.nj-fab-actions button,.nj-fab-actions a{min-height:44px;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 7px;border-radius:12px;border:1px solid color-mix(in srgb,var(--nj-a,#2563eb) 22%,#cbd5e1);background:color-mix(in srgb,var(--nj-a,#2563eb) 7%,var(--nj-card,#fff));color:var(--nj-a,#2563eb)!important;text-decoration:none;font:800 11px system-ui,-apple-system,"Noto Sans Bengali",sans-serif;cursor:pointer}.nj-fab-actions button:hover,.nj-fab-actions a:hover,.nj-quick-theme:hover,.nj-quick-color:hover{transform:translateY(-1px)}.nj-fab-sub{margin-top:9px;padding-top:9px;border-top:1px solid color-mix(in srgb,var(--nj-a,#2563eb) 18%,#cbd5e1)}.nj-fab-subtitle{font:900 12px system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:var(--nj-text,#0f172a);margin-bottom:7px}.nj-fab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.nj-quick-theme,.nj-quick-color{min-height:40px!important;padding:6px 4px!important;border-radius:10px!important;border:1px solid color-mix(in srgb,var(--nj-a,#2563eb) 20%,#cbd5e1)!important;background:var(--nj-soft,#f8fafc)!important;color:var(--nj-a,#2563eb)!important;font:800 10px system-ui,-apple-system,"Noto Sans Bengali",sans-serif!important;cursor:pointer}.nj-quick-color i{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:middle;margin-right:3px;border:1px solid #fff}@media(max-width:520px){#nj-fab{right:10px;bottom:14px;width:50px;height:50px}#nj-fab-panel{right:7px;bottom:74px;width:calc(100vw - 14px);max-height:72vh}.nj-fab-grid{grid-template-columns:repeat(3,1fr)}}@media(prefers-reduced-motion:reduce){#nj-fab,.nj-fab-actions button,.nj-fab-actions a,.nj-quick-theme,.nj-quick-color{transition:none!important}}</style>`;
-const FAB_SCRIPT=`<script src="./theme-system.js"></script><script>(function(){function boot(){try{window.initTheme&&window.initTheme()}catch(e){}const f=document.getElementById('nj-fab'),p=document.getElementById('nj-fab-panel'),c=document.getElementById('nj-fab-close'),ts=document.getElementById('nj-fab-theme'),cs=document.getElementById('nj-fab-color');if(!f||!p)return;let moved=false,sx=0,sy=0,ox=0,oy=0;try{const q=JSON.parse(localStorage.getItem('njFabPos')||'null');if(q){f.style.left=q.x+'px';f.style.top=q.y+'px';f.style.right='auto';f.style.bottom='auto'}}catch(e){}function open(){p.hidden=false;f.setAttribute('aria-expanded','true');f.textContent='×'}function close(){p.hidden=true;f.setAttribute('aria-expanded','false');f.textContent='☰';ts.hidden=true;cs.hidden=true}f.addEventListener('pointerdown',e=>{moved=false;sx=e.clientX;sy=e.clientY;const r=f.getBoundingClientRect();ox=r.left;oy=r.top;f.setPointerCapture?.(e.pointerId)});f.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)<7)return;moved=true;const x=Math.max(6,Math.min(innerWidth-f.offsetWidth-6,ox+e.clientX-sx));const y=Math.max(6,Math.min(innerHeight-f.offsetHeight-6,oy+e.clientY-sy));f.style.left=x+'px';f.style.top=y+'px';f.style.right='auto';f.style.bottom='auto'});f.addEventListener('pointerup',()=>{if(moved){const r=f.getBoundingClientRect();localStorage.setItem('njFabPos',JSON.stringify({x:Math.round(r.left),y:Math.round(r.top)}))}});f.addEventListener('click',()=>{if(moved){moved=false;return}p.hidden?open():close()});c?.addEventListener('click',close);document.querySelector('[data-act="theme"]')?.addEventListener('click',()=>{ts.hidden=!ts.hidden;cs.hidden=true});document.querySelector('[data-act="color"]')?.addEventListener('click',()=>{cs.hidden=!cs.hidden;ts.hidden=true});document.querySelectorAll('.nj-quick-theme').forEach(b=>b.addEventListener('click',()=>window.applyTheme&&window.applyTheme(b.dataset.theme)));document.querySelectorAll('.nj-quick-color').forEach(b=>b.addEventListener('click',()=>{document.documentElement.style.setProperty('--nj-a',b.dataset.a);document.documentElement.style.setProperty('--nj-b',b.dataset.b);localStorage.setItem('njQuickColor',JSON.stringify({a:b.dataset.a,b:b.dataset.b}))}));try{const q=JSON.parse(localStorage.getItem('njQuickColor')||'null');if(q){document.documentElement.style.setProperty('--nj-a',q.a);document.documentElement.style.setProperty('--nj-b',q.b)}}catch(e){}}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot()})();</script>`;
-async function transformHtml(res){try{let html=await res.text();html=html.replace('</head>','<link rel="stylesheet" href="./ecommerce-theme.css">'+FAB_CSS+FAB_SCRIPT+'</head>');html=html.replace(/<div id="nj-fab-panel"[\s\S]*?<\/div>\s*<button id="nj-fab"[\s\S]*?<\/button>/g,'');html=html.replace(/<button id="nj-fab"[\s\S]*?<\/button>/g,'');html=html.replace(/<div id="nj-theme-dock"[\s\S]*?<\/div>/g,'');html=html.replace(/<button id="nj-theme-toggle"[\s\S]*?<\/button>/g,'');html=html.replace(/<a class="(?:nurjahan-camera-fab|camera)"[\s\S]*?<\/a>/g,'');html=html.replace(/<style id="nurjahan-camera-css">[\s\S]*?<\/style>/g,'');html=html.replace('</body>',FAB_HTML+'</body>');return new Response(html,{status:res.status,statusText:res.statusText,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}})}catch{return res}}
+
+async function transformHtml(res){
+  try{
+    const base=res;
+    let html=await base.text();
+    html=html
+      .replace(/<a[^>]*class=["'][^"']*\bcamera\b[^"']*["'][\s\S]*?<\/a>/gi,'')
+      .replace(/<a[^>]*class=["'][^"']*nurjahan-camera-fab[^"']*["'][\s\S]*?<\/a>/gi,'')
+      .replace(/<button[^>]*class=["'][^"']*ai-launch[^"']*["'][\s\S]*?<\/button>/gi,'')
+      .replace(/<button[^>]*id=["']nj-theme-toggle["'][\s\S]*?<\/button>/gi,'')
+      .replace(/<div[^>]*id=["']nj-theme-dock["'][\s\S]*?<\/div>/gi,'')
+      .replace(/<style[^>]*id=["']nurjahan-camera-css["'][\s\S]*?<\/style>/gi,'');
+    if(!/<link[^>]+ecommerce-theme\.css/i.test(html)){
+      html=html.replace('</head>','<link rel="stylesheet" href="./ecommerce-theme.css"></head>');
+    }
+    if(!/<script[^>]+theme-system\.js/i.test(html)){
+      html=html.replace('</head>','<script src="./theme-system.js"></script></head>');
+    }
+    return new Response(html,{status:base.status,statusText:base.statusText,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
+  }catch{return res}
+}
+
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(APP_SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const url=new URL(e.request.url);if(url.origin!==location.origin)return;const isHtml=e.request.mode==='navigate'||(e.request.headers.get('accept')||'').includes('text/html');e.respondWith((async()=>{try{let res;if(isHtml){res=await fetch(e.request,{cache:'no-store'});if(PREMIUM.some(p=>url.pathname.endsWith('/'+p)||url.pathname===p)){const base=res;const html=await base.clone().text();res=new Response(html.replace('</head>','<link rel="stylesheet" href="./premium-pages.css"></head>'),{status:base.status,statusText:base.statusText,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}})}if(!url.pathname.endsWith('/camera.html'))res=await transformHtml(res);return res}const cached=await caches.match(e.request);if(cached)return cached;return await fetch(e.request)}catch(err){const cached=await caches.match(e.request);if(cached)return cached;return caches.match('./index.html')}})())});
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  const url=new URL(e.request.url);
+  if(url.origin!==location.origin)return;
+  const isHtml=e.request.mode==='navigate'||(e.request.headers.get('accept')||'').includes('text/html');
+  e.respondWith((async()=>{
+    try{
+      let res;
+      if(isHtml){
+        res=await fetch(e.request,{cache:'no-store'});
+        if(PREMIUM.some(p=>url.pathname.endsWith('/'+p)||url.pathname===p)){
+          const base=res;
+          const html=await base.clone().text();
+          res=new Response(html.replace('</head>','<link rel="stylesheet" href="./premium-pages.css"></head>'),{status:base.status,statusText:base.statusText,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
+        }
+        if(!url.pathname.endsWith('/camera.html'))res=await transformHtml(res);
+        return res;
+      }
+      const cached=await caches.match(e.request);
+      if(cached)return cached;
+      return await fetch(e.request);
+    }catch(err){
+      const cached=await caches.match(e.request);
+      if(cached)return cached;
+      return caches.match('./index.html');
+    }
+  })());
+});
