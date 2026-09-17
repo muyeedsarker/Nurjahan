@@ -1,1 +1,0 @@
-(function(){const ACTIONS=[['theme','🎨','Theme'],['color','🌈','Color'],['settings','⚙️','Settings'],['search','🔎','Search'],['notifications','🔔','Alerts'],['account','👤','Account'],['ai','🤖','AI'],['support','💬','Support'],['camera','📷','Camera'],['cart','🛒','Cart'],['packages','🛍️','Packages'],['payment','💳','Payment'],['help','❓','Help'],['domain','🌐','Domain']];})();
