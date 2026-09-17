@@ -15,6 +15,10 @@ const themes={
   midnight:{name:'Midnight',a:'#6366f1',b:'#3b82f6',bg:'#050816',card:'#0d1326',soft:'#111a32'},
   coral:{name:'Coral',a:'#f43f5e',b:'#fb7185',bg:'#fff8f7',card:'#ffffff',soft:'#fff1f2'}
 };
-function applyTheme(k){const t=themes[k]||themes.ocean;for(const[n,v]of Object.entries(t))if(n!=='name')document.documentElement.style.setProperty('--nj-'+n,v);document.body?.classList.toggle('nj-dark',['tech','galaxy','neon','midnight'].includes(k));try{localStorage.setItem('njTheme',k)}catch(e){}const s=document.getElementById('nj-theme');if(s)s.value=k;document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===k));}
-function initTheme(){applyTheme(localStorage.getItem('njTheme')||'ocean')}
+const themeOrder=Object.keys(themes);
+const themeLabels={ocean:'🌊 Ocean',royal:'👑 Royal',emerald:'🌿 Emerald',tech:'⚫ Tech',galaxy:'✨ Galaxy',sunset:'🌅 Sunset',diamond:'💎 Diamond',rose:'🌸 Rose',coffee:'☕ Coffee',aurora:'🌌 Aurora',luxury:'🏆 Luxury Gold',ice:'🧊 Ice Blue',neon:'🔥 Neon',midnight:'🌙 Midnight',coral:'🌺 Coral'};
+function applyTheme(k){const t=themes[k]||themes.ocean;for(const[n,v]of Object.entries(t))if(n!=='name')document.documentElement.style.setProperty('--nj-'+n,v);document.documentElement.style.setProperty('--nj-border',`color-mix(in srgb,${t.a} 22%,#cbd5e1)`);document.body?.classList.toggle('nj-dark',['tech','galaxy','neon','midnight'].includes(k));try{localStorage.setItem('njTheme',k)}catch(e){}const s=document.getElementById('nj-theme');if(s)s.value=k;document.querySelectorAll('.theme-btn,.nj-theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===k));}
+function buildThemeButtons(){document.querySelectorAll('.theme-buttons').forEach(box=>{if(box.dataset.nj15Ready)return;box.dataset.nj15Ready='1';box.innerHTML=themeOrder.map(k=>`<button type="button" class="chip theme-btn nj-theme-btn" data-theme="${k}" aria-label="${themes[k].name}"><span class="nj-theme-swatch" style="background:linear-gradient(135deg,${themes[k].a},${themes[k].b})"></span>${themeLabels[k]}</button>`).join('');});document.querySelectorAll('.theme-btn,.nj-theme-btn').forEach(b=>{if(!b.dataset.njBound){b.dataset.njBound='1';b.addEventListener('click',()=>applyTheme(b.dataset.theme));}});}
+function initTheme(){buildThemeButtons();applyTheme(localStorage.getItem('njTheme')||'ocean')}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initTheme);else initTheme();
 window.NurjahanThemes=themes;window.applyTheme=applyTheme;window.initTheme=initTheme;
