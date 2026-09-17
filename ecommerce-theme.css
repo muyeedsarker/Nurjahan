@@ -1,0 +1,82 @@
+:root{
+  --brand-primary:#5B2EE0;
+  --brand-light:#EEEDFE;
+  --cta-primary:#FF6B6B;
+  --cta-hover:#FF5252;
+  --success:#27AE60;
+  --discount:#E24B4A;
+  --text-primary:#1E1E1E;
+  --text-secondary:#6B7280;
+  --bg-white:#FFFFFF;
+  --border-color:#E5E5E5;
+  --radius:8px;
+}
+
+html,body{background:var(--bg-white)!important;color:var(--text-primary)!important}
+body{line-height:1.6}
+
+a{color:var(--brand-primary)}
+a:hover{color:var(--brand-primary);text-decoration:underline}
+
+/* Global navigation/header */
+header,.header,.navbar,.nav,.site-header,.topbar{background:var(--brand-primary)!important;color:#fff!important;border-color:var(--brand-primary)!important}
+.nav a,.navbar a,.header a,.site-header a,.topbar a{color:#fff!important}
+.nav a:hover,.navbar a:hover,.header a:hover,.site-header a:hover,.topbar a:hover{background:var(--brand-light)!important;color:var(--brand-primary)!important;text-decoration:none}
+
+/* Brand/logo */
+.logo,.brand,.brand-logo,.site-logo{color:var(--brand-primary)!important}
+header .logo,header .brand,header .brand-logo,header .site-logo{color:#fff!important}
+
+/* Main surfaces */
+main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,.checkout,.footer-card{background:var(--bg-white)!important;color:var(--text-primary)!important;border-color:var(--border-color)!important}
+.hero,.head{background:var(--brand-light)!important;color:var(--text-primary)!important;border:1px solid var(--border-color)!important;box-shadow:none!important}
+
+/* Product thumbnail/media area */
+.product-image,.product-thumb,.thumbnail,.thumb,.product-card .image,.product-card .media{background:var(--brand-light)!important}
+
+/* Product text */
+.product-name,.product-title,.product-card h2,.product-card h3,.product-card h4{color:var(--text-secondary)!important}
+.product-description,.description,.muted,.note{color:var(--text-secondary)!important}
+.price,.product-price,.amount,.total-price{color:var(--text-primary)!important;font-weight:800!important}
+
+/* Shopping CTA — coral is reserved for purchase actions only */
+.add-to-cart,.buy-now,.checkout,.cart-action,.purchase-action,[data-action="add-to-cart"],[data-action="buy-now"],[data-action="checkout"]{
+  background:var(--cta-primary)!important;color:var(--text-primary)!important;border:1px solid var(--cta-primary)!important;border-radius:var(--radius)!important;font-weight:800!important
+}
+.add-to-cart:hover,.buy-now:hover,.checkout:hover,.cart-action:hover,.purchase-action:hover,[data-action="add-to-cart"]:hover,[data-action="buy-now"]:hover,[data-action="checkout"]:hover{
+  background:var(--cta-hover)!important;color:var(--text-primary)!important;border-color:var(--cta-hover)!important
+}
+
+/* Other buttons are brand actions, not shopping CTAs */
+button,.btn,.button,.actions button,.pkg,.call,.free,.cta{background:var(--brand-primary)!important;color:#fff!important;border:1px solid var(--brand-primary)!important;border-radius:var(--radius)!important}
+button:hover,.btn:hover,.button:hover,.actions button:hover,.pkg:hover,.call:hover,.free:hover,.cta:hover{background:var(--brand-primary)!important;color:#fff!important;filter:brightness(.9)}
+
+/* Discount / stock / delivery badges.
+   Dark text is used here because the requested red/green backgrounds with white text do not reach 4.5:1 contrast. */
+.discount,.discount-badge,.sale-badge,.offer-badge,.stock-out{background:var(--discount)!important;color:var(--text-primary)!important;border-radius:var(--radius)!important;font-weight:800!important}
+.in-stock,.stock,.delivery,.success,.success-badge,.free-delivery{background:var(--success)!important;color:var(--text-primary)!important;border-radius:var(--radius)!important;font-weight:800!important}
+
+/* Brand-light badges/hover surfaces */
+.badge,.chip,.tag,.brand-badge{background:var(--brand-light)!important;color:var(--brand-primary)!important;border-color:var(--border-color)!important}
+
+/* Forms, cards, dividers */
+input,select,textarea{background:var(--bg-white)!important;color:var(--text-primary)!important;border:1px solid var(--border-color)!important;border-radius:var(--radius)!important}
+input:focus,select:focus,textarea:focus{border-color:var(--brand-primary)!important;box-shadow:0 0 0 3px var(--brand-light)!important;outline:none}
+.card,.panel,.product-card,.cart,.checkout{border:1px solid var(--border-color)!important;border-radius:var(--radius)!important}
+hr,.divider{border-color:var(--border-color)!important}
+
+/* Footer */
+footer,.footer{background:var(--brand-primary)!important;color:#fff!important}
+footer a,.footer a{color:#fff!important}
+
+/* Dark mode: preserve brand identity and shopping CTA colors */
+@media (prefers-color-scheme:dark){
+  :root{--bg-white:#171717;--text-primary:#F5F5F5;--text-secondary:#D1D5DB;--border-color:#3A3A3A}
+  body,main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,.checkout,.footer-card{background:var(--bg-white)!important;color:var(--text-primary)!important}
+  .hero,.head{background:#25204A!important;color:var(--text-primary)!important}
+  .product-image,.product-thumb,.thumbnail,.thumb,.product-card .image,.product-card .media{background:#24203D!important}
+  input,select,textarea{background:#1F1F1F!important;color:var(--text-primary)!important}
+}
+
+/* Keep shopping coral exclusive to purchase actions. */
+.ai-launch,.camera,.nurjahan-camera-fab,.back,.link,.support,.save,.publish{background:var(--brand-primary)!important;color:#fff!important}
