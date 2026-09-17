@@ -39,20 +39,20 @@ main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,
 .product-description,.description,.muted,.note{color:var(--text-secondary)!important}
 .price,.product-price,.amount,.total-price{color:var(--text-primary)!important;font-weight:800!important}
 
-/* Shopping CTA — coral is reserved for purchase actions only */
-.add-to-cart,.buy-now,.checkout,.cart-action,.purchase-action,[data-action="add-to-cart"],[data-action="buy-now"],[data-action="checkout"]{
-  background:var(--cta-primary)!important;color:var(--text-primary)!important;border:1px solid var(--cta-primary)!important;border-radius:var(--radius)!important;font-weight:800!important
-}
-.add-to-cart:hover,.buy-now:hover,.checkout:hover,.cart-action:hover,.purchase-action:hover,[data-action="add-to-cart"]:hover,[data-action="buy-now"]:hover,[data-action="checkout"]:hover{
-  background:var(--cta-hover)!important;color:var(--text-primary)!important;border-color:var(--cta-hover)!important
-}
-
-/* Other buttons are brand actions, not shopping CTAs */
+/* Non-shopping buttons use brand purple */
 button,.btn,.button,.actions button,.pkg,.call,.free,.cta{background:var(--brand-primary)!important;color:#fff!important;border:1px solid var(--brand-primary)!important;border-radius:var(--radius)!important}
 button:hover,.btn:hover,.button:hover,.actions button:hover,.pkg:hover,.call:hover,.free:hover,.cta:hover{background:var(--brand-primary)!important;color:#fff!important;filter:brightness(.9)}
 
+/* Shopping CTA — coral is reserved only for purchase actions */
+.add-to-cart,.buy-now,.cart-action,.purchase-action,.checkout-btn,.checkout-button,[data-action="add-to-cart"],[data-action="buy-now"],[data-action="checkout"]{
+  background:var(--cta-primary)!important;color:var(--text-primary)!important;border:1px solid var(--cta-primary)!important;border-radius:var(--radius)!important;font-weight:800!important
+}
+.add-to-cart:hover,.buy-now:hover,.cart-action:hover,.purchase-action:hover,.checkout-btn:hover,.checkout-button:hover,[data-action="add-to-cart"]:hover,[data-action="buy-now"]:hover,[data-action="checkout"]:hover{
+  background:var(--cta-hover)!important;color:var(--text-primary)!important;border-color:var(--cta-hover)!important
+}
+
 /* Discount / stock / delivery badges.
-   Dark text is used here because the requested red/green backgrounds with white text do not reach 4.5:1 contrast. */
+   Dark text preserves the requested background colors while meeting the stated contrast target. */
 .discount,.discount-badge,.sale-badge,.offer-badge,.stock-out{background:var(--discount)!important;color:var(--text-primary)!important;border-radius:var(--radius)!important;font-weight:800!important}
 .in-stock,.stock,.delivery,.success,.success-badge,.free-delivery{background:var(--success)!important;color:var(--text-primary)!important;border-radius:var(--radius)!important;font-weight:800!important}
 
@@ -78,5 +78,5 @@ footer a,.footer a{color:#fff!important}
   input,select,textarea{background:#1F1F1F!important;color:var(--text-primary)!important}
 }
 
-/* Keep shopping coral exclusive to purchase actions. */
+/* Floating/support controls remain brand purple, never shopping coral */
 .ai-launch,.camera,.nurjahan-camera-fab,.back,.link,.support,.save,.publish{background:var(--brand-primary)!important;color:#fff!important}
