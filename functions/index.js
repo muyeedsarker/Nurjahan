@@ -90,10 +90,11 @@ exports.reviewPayment = onCall(
 );
 
 exports.createSupportTicket = onCall(
-  { enforceAppCheck: true },
+  { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
     const data = request.data || {};
     const message = String(data.message || '').trim();
+    if (message.length > 4000) throw new HttpsError('invalid-argument', 'বার্তাটি খুব বড়।');
     if (!message) throw new HttpsError('invalid-argument', 'প্রশ্ন পাওয়া যায়নি।');
     const ref = await db.collection('supportTickets').add({
       message: message.slice(0, 4000),
