@@ -9,7 +9,11 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}body{word-break:normal;ove
 <script>
 (()=>{const modal=document.getElementById('tplModal'),preview=document.getElementById('tplPreview'),builder=document.getElementById('tplBuilder');
 function openTpl(btn){const n=btn.dataset.template,c=btn.dataset.category;preview.innerHTML='<div class="tpl-preview-icon">🧩</div><h2>'+n+'</h2><p>Business type: <b>'+c+'</b></p><p class="muted">এই ready-made layout-এ logo, color, photo, products/services, contact information এবং content customize করা যাবে।</p><div class="preview-points"><span>✓ Responsive</span><span>✓ Clean UI</span><span>✓ Business Ready</span><span>✓ AI Assisted</span></div>';builder.href='index.html?template='+encodeURIComponent(n.toLowerCase().replace(/\s+/g,'-'));modal.classList.add('show');modal.setAttribute('aria-hidden','false')}
-document.querySelectorAll('.tpl-btn').forEach(b=>b.addEventListener('click',()=>openTpl(b)));
+document.querySelectorAll('.tpl-btn').forEach(b=>b.addEventListener('click',()=>{
+  const selected=localStorage.getItem('njSelectedCategory')||'';
+  openTpl(b);
+  builder.href='index.html?category='+encodeURIComponent(selected||b.dataset.category)+'&template='+encodeURIComponent(b.dataset.template);
+}));
 document.querySelectorAll('[data-close-template]').forEach(b=>b.addEventListener('click',()=>{modal.classList.remove('show');modal.setAttribute('aria-hidden','true')}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('show')});
 })();
