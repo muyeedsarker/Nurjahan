@@ -18,7 +18,7 @@ service cloud.firestore {
     }
 
     function allowedWebsiteCreate() {
-      return !request.resource.data.keys().hasAny(['status','paid','subscriptionStatus']);
+      return request.resource.data.keys().hasOnly(['name','phone','type','address','title','desc','createdAt','updatedAt','domain','websiteId','packageName','packageAmount','billing']) && !request.resource.data.keys().hasAny(['status','paid','subscriptionStatus']);
     }
 
     match /payments/{paymentId} {
