@@ -30,6 +30,7 @@ service cloud.firestore {
     match /websites/{websiteId} {
       allow create: if allowedWebsiteCreate();
       allow get: if resource.data.status == 'live';
+      // Public clients may never list/query websites; live documents are read only by known document ID.
       allow list: if false;
       allow update, delete: if isAdmin();
     }
