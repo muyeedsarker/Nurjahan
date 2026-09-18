@@ -180,4 +180,19 @@ const style=document.createElement("style");style.id="nj-business-visual-style";
 document.head.appendChild(style);
 const builder=document.getElementById("builder");if(builder&&!document.querySelector(".nj-business-label")){const x=document.createElement("div");x.className="nj-business-label";x.textContent="🎯 Active Business Theme: "+cat;builder.prepend(x)}
 })();
+</script><script id="nj-business-preview">
+(function(){
+const A={"Electronics & Gadgets":["Product catalog","Price / Offer","Contact","Gallery"],"Fashion & Clothing":["Product catalog","Size / Collection","Offers","Gallery"],"Restaurant & Food":["Menu","Online Order","Location","Gallery"],"Grocery & Daily Needs":["Products","Order","Delivery","Location"],"Medicine & Pharmacy":["Medicine catalog","Delivery","Contact","Location"],"Health & Medical":["Services","Appointment","Doctor Info","Location"],"Property & Real Estate":["Property Listings","Gallery","Enquiry","Location"],"Education & Training":["Courses","Admission","Gallery","Contact"],"Automotive":["Vehicle Catalog","Services","Gallery","Contact"],"Hotel & Resort":["Rooms","Booking","Gallery","Location"],"Travel & Tourism":["Packages","Booking","Gallery","Contact"],"Professional Services":["Services","Booking","Portfolio","Contact"],"Courier & Delivery":["Delivery","Tracking","Contact","Location"],"Event & Wedding Services":["Services","Gallery","Booking","Contact"]};
+const aliases={"Electronics":"Electronics & Gadgets","Pharmacy":"Medicine & Pharmacy","Restaurant":"Restaurant & Food","Doctor / Clinic":"Health & Medical","Real Estate":"Property & Real Estate","Education":"Education & Training","Hotel":"Hotel & Resort","Travel":"Travel & Tourism","Grocery":"Grocery & Daily Needs","Computer":"Electronics & Gadgets","Fashion & Clothing":"Fashion & Clothing","Cosmetics & Beauty":"Fashion & Clothing"};
+const p=new URLSearchParams(location.search);const cat=aliases[p.get("category")]||localStorage.getItem("njSelectedCategory");if(!cat)return;
+const old=window.generate;
+window.generate=function(){
+ if(typeof old==="function")old();
+ const box=document.getElementById("preview");if(!box)return;
+ const items=A[cat]||["Contact","Services","Gallery","SEO"];
+ let extra=document.getElementById("nj-business-preview-block");
+ if(!extra){extra=document.createElement("div");extra.id="nj-business-preview-block";box.appendChild(extra)}
+ extra.innerHTML='<div style="padding:18px"><h3 style="margin:0 0 10px">🎯 '+cat+' Website Preview</h3><p style="color:#64748b">এই customer-এর জন্য প্রয়োজনীয় অংশগুলো:</p><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">'+items.map(x=>'<div style="padding:11px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;font-weight:800">✓ '+x+'</div>').join('')+'</div></div>';
+};
+})();
 </script></body></html>
