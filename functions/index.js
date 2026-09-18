@@ -89,6 +89,38 @@ exports.reviewPayment = onCall(
   }
 );
 
+exports.submitPayment = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    const data = request.data || {};
+    const websiteId = String(data.websiteId || '').trim();
+    const websiteName = String(data.websiteName || '').trim();
+    const domain = String(data.domain || '').trim();
+    const method = String(data.method || '').trim();
+    const senderPhone = String(data.senderPhone || '').trim();
+    const trxId = String(data.trxId || '').trim().toUpperCase();
+    if (!websiteId || !websiteName || !senderPhone || !trxId || !['bKash','Nagad'].includes(method)) {
+      throw new HttpsError('invalid-argument', 'Payment তথ্য সঠিক নয়।');
+    }
+    const paymentQuery = db.collection('payments').where('method','==',method).where('trxId','==',trxId).limit(1);
+    const existing = await paymentQuery.get();
+    if (!existing.empty) {
+      throw new HttpsError('already-exists', 'এই Transaction ID আগে ব্যবহার করা হয়েছে।');
+    }
+    const paymentRef = db.collection('payments').doc();
+    await db.runTransaction(async (tx) => {
+      const again = await tx.get(paymentRef);
+      if (again.exists) throw new HttpsError('aborted', 'Payment তৈরি করা যায়নি।');
+      tx.set(paymentRef, {
+        websiteId, websiteName, domain, packageName:'Premium', packageAmount:399,
+        billing:'monthly', method, senderPhone, trxId, amount:399,
+        status:'pending', createdAt:FieldValue.serverTimestamp()
+      });
+    });
+    return { ok:true, id:paymentRef.id, status:'pending' };
+  }
+);
+
 exports.createSupportTicket = onCall(
   { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
