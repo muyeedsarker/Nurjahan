@@ -1,4 +1,4 @@
-const CACHE='nurjahan-v51';
+const CACHE='nurjahan-v52';
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',event=>{
