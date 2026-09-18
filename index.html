@@ -261,6 +261,7 @@ window.generate=function(){
 if(typeof oldGenerate==="function")oldGenerate();
 const box=document.getElementById("preview");if(!box)return;
 const q=new URLSearchParams(location.search);const template=q.get("template")||localStorage.getItem("njSelectedTemplate")||"Electronics Store";
+const theme=localStorage.getItem("njTheme")||localStorage.getItem("njSelectedTheme")||"ocean";
 const title=names[template]||template;
 let p=document.getElementById("nj-live-template-preview");
 if(!p){p=document.createElement("div");p.id="nj-live-template-preview";box.appendChild(p)}
@@ -291,7 +292,7 @@ function buildDraft(){
  const name=document.getElementById("name")?.value.trim()||template;
  const phone=document.getElementById("phone")?.value.trim()||"";
  const title=document.getElementById("title")?.value.trim()||template;
- const data={name,phone,type:category,title,desc:"Nurjahan.com-এর তৈরি প্রফেশনাল ওয়েবসাইট",websiteId:id,domain:"",updatedAt:new Date().toISOString(),template};
+ const data={name,phone,type:category,title,desc:"Nurjahan.com-এর তৈরি প্রফেশনাল ওয়েবসাইট",websiteId:id,domain:"",updatedAt:new Date().toISOString(),template,theme};
  localStorage.setItem("nurjahanWebsiteData",JSON.stringify(data));
  return {id,template,category,data};
 }
