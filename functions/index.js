@@ -85,7 +85,7 @@ exports.reviewPayment = onCall(
           packageAmount,
           supportPeriod: isEcommerce ? '1-year' : null,
           paidAt: FieldValue.serverTimestamp(),
-          nextPaymentDue: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          nextPaymentDue: isEcommerce ? null : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           updatedAt: FieldValue.serverTimestamp()
         });
       }
@@ -152,5 +152,33 @@ exports.createSupportTicket = onCall(
       createdAt: FieldValue.serverTimestamp()
     });
     return { ok: true, id: ref.id };
+  }
+);
+
+exports.submitTrainingApplication = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    const data = request.data || {};
+    const websiteId = String(data.websiteId || '').trim();
+    const course = String(data.course || '').trim();
+    const name = String(data.name || '').trim();
+    const phone = String(data.phone || '').trim();
+    const address = String(data.address || '').trim();
+    if (!websiteId || !course || !name || !phone) {
+      throw new HttpsError('invalid-argument', 'ভর্তি আবেদনের তথ্য অসম্পূর্ণ।');
+    }
+    if (name.length > 120 || phone.length > 30 || address.length > 500 || course.length > 200) {
+      throw new HttpsError('invalid-argument', 'আবেদনের তথ্যের দৈর্ঘ্য সঠিক নয়।');
+    }
+    const websiteSnap = await db.collection('websites').doc(websiteId).get();
+    if (!websiteSnap.exists || websiteSnap.data().status !== 'live') {
+      throw new HttpsError('failed-precondition', 'এই প্রশিক্ষণ ওয়েবসাইটটি এখনো Live নয়।');
+    }
+    const ref = await db.collection('trainingApplications').add({
+      websiteId, course, name, phone, address,
+      status: 'pending', source: 'live-training-form',
+      createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+    });
+    return { ok: true, id: ref.id, status: 'pending' };
   }
 );
