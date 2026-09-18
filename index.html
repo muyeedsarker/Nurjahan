@@ -110,4 +110,61 @@ badge.textContent="✓ আপনার নির্বাচিত Business: "+s
 const builder=document.getElementById("builder");
 if(builder&&!document.getElementById("nj-selected-business")){badge.id="nj-selected-business";builder.insertBefore(badge,builder.querySelector(".row"))}
 })();
+</script><script id="nj-template-filter">
+(function(){
+const T={
+"Electronics & Gadgets":["Electronics","Computer & IT","Digital Products"],
+"Fashion & Clothing":["Fashion","Gifts & Handmade"],
+"Shoes & Bags":["Fashion"],
+"Beauty & Personal Care":["Fashion"],
+"Restaurant & Food":["Restaurant"],
+"Grocery & Daily Needs":["Grocery","Online Store"],
+"Home & Kitchen":["Home"],
+"Furniture & Home Decor":["Home"],
+"Baby & Kids":["Fashion"],
+"Health & Medical":["Health"],
+"Medicine & Pharmacy":["Pharmacy"],
+"Sports & Fitness":["Sports"],
+"Automotive":["Automotive"],
+"Motorcycle & Parts":["Automotive"],
+"Jewelry & Watches":["Jewelry"],
+"Books & Stationery":["Education","Online Store"],
+"Computer & IT":["Computer & IT","Electronics"],
+"Gaming":["Electronics","Computer & IT"],
+"Agriculture & Farming":["Agriculture"],
+"Livestock & Poultry":["Agriculture"],
+"Fish & Aquaculture":["Agriculture"],
+"Construction & Hardware":["Construction"],
+"Tools & Machinery":["Construction"],
+"Solar & Renewable Energy":["Electrical","Solar"],
+"Business & Industrial":["Business"],
+"Property & Real Estate":["Real Estate"],
+"Transport & Ride":["Transport"],
+"Travel & Tourism":["Travel"],
+"Hotel & Resort":["Hotel"],
+"Booking & Appointment":["Booking"],
+"Online Order":["Online Store"],
+"Digital Products":["Digital Products"],
+"Education & Training":["Education"],
+"Jobs & Career":["Career"],
+"Professional Services":["Professional"],
+"Home Services":["Home Services"],
+"Photography & Media":["Media"],
+"Gifts & Handmade":["Gifts"],
+"Organic & Herbal":["Health"],
+"Pet Supplies":["Pets"],
+"Courier & Delivery":["Courier"],
+"Event & Wedding Services":["Wedding"]
+};
+const a={"Electronics":"Electronics & Gadgets","Pharmacy":"Medicine & Pharmacy","Restaurant":"Restaurant & Food","Doctor / Clinic":"Health & Medical","Real Estate":"Property & Real Estate","Education":"Education & Training","Hotel":"Hotel & Resort","Travel":"Travel & Tourism","Grocery":"Grocery & Daily Needs","Computer":"Computer & IT","Fashion & Clothing":"Fashion & Clothing","Cosmetics & Beauty":"Beauty & Personal Care"};
+const p=new URLSearchParams(location.search);let cat=a[p.get("category")]||a[localStorage.getItem("njSelectedCategory")]||localStorage.getItem("njSelectedCategory");if(!cat)return;
+const allow=(T[cat]||[]).map(x=>x.toLowerCase());
+document.querySelectorAll("#templates .template").forEach(card=>{
+ const text=card.textContent.toLowerCase();const show=allow.some(x=>text.includes(x));
+ card.style.display=show?"block":"none";
+});
+const section=document.getElementById("templates");if(section){
+ const msg=document.createElement("div");msg.style.cssText="margin:12px 0;padding:10px 12px;border-radius:12px;background:#eff6ff;color:#1d4ed8;font-weight:800";msg.textContent="🎯 "+cat+" — শুধু আপনার Business-এর উপযোগী Template দেখানো হচ্ছে";section.insertBefore(msg,section.querySelector(".templates"));
+}
+})();
 </script></body></html>
