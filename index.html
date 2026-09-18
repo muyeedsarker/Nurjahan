@@ -340,7 +340,7 @@ function boot(){
    if(panel){panel.remove();return;}
    const p=document.createElement('div');p.id='nj-settings-panel';
    p.style.cssText='position:fixed;right:8px;top:48px;z-index:10000;width:min(300px,calc(100vw - 16px));background:#fff;border:1px solid #dbeafe;border-radius:16px;padding:12px;box-shadow:0 18px 45px rgba(15,23,42,.2)';
-   p.innerHTML='<b style="display:block;margin-bottom:8px">⚙️ দ্রুত সেটিংস</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px"><a class="btn" href="#themes">🎨 থিম</a><a class="btn" href="#templates">🚀 টেমপ্লেট</a><a class="btn" href="#builder">✨ নির্মাতা</a><a class="btn" href="packages.html">💳 প্যাকেজ</a></div>';
+   p.innerHTML='<b style="display:block;margin-bottom:8px">⚙️ দ্রুত সেটিংস</b><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><a class="btn" href="#features">সুবিধা</a><a class="btn" href="#themes">🎨 থিম</a><a class="btn" href="#templates">🚀 টেমপ্লেট</a><a class="btn" href="#builder">✨ নির্মাতা</a><a class="btn" href="#previewBox">👁️ প্রিভিউ</a><a class="btn" href="features.html">📋 সব সুবিধাসমূহ</a><a class="btn" href="packages.html">💳 প্যাকেজ</a></div>';
    document.body.appendChild(p);
  };
 }
