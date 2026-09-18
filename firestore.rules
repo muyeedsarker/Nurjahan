@@ -23,7 +23,8 @@ service cloud.firestore {
 
     match /payments/{paymentId} {
       allow read: if isAdmin();
-      allow create: if allowedPaymentCreate();
+      // Payment documents are created only by the App Check-protected Cloud Function.
+      allow create: if false;
       allow update, delete: if isAdmin();
     }
 
