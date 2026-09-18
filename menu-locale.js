@@ -12,9 +12,9 @@
     const script=document.createElement('script');script.id='nj-google-translate-script';script.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';document.head.appendChild(script);
   }
   function globalTranslate(code){
-    if(code==='bn'){document.cookie='googtrans=/bn/bn;path=/';location.reload();return;}
+    if(code==='bn'){document.cookie='googtrans=/bn/bn;path=/';document.cookie='googtrans=/bn/bn;path=/;domain='+location.hostname;location.reload();return;}
     loadGlobalTranslator();
-    const trySelect=()=>{const sel=document.querySelector('.goog-te-combo');if(!sel)return false;const opt=[...sel.options].find(o=>o.value===code);if(!opt)return false;sel.value=code;sel.dispatchEvent(new Event('change'));return true;};
+    const trySelect=()=>{const sel=document.querySelector('.goog-te-combo');if(!sel)return false;const opt=[...sel.options].find(o=>o.value===code);if(!opt)return false;sel.value=code;sel.dispatchEvent(new Event('change'));document.cookie='googtrans=/bn/'+code+';path=/';return true;};
     let n=0;const timer=setInterval(()=>{if(trySelect()||++n>30)clearInterval(timer)},300);
   }
   function mount(){
