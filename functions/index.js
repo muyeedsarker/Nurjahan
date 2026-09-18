@@ -191,6 +191,30 @@ exports.createSupportTicket = onCall(
   }
 );
 
+exports.listOrders = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    requireAdmin(request);
+    const snap = await db.collection('orders').orderBy('createdAt','desc').limit(100).get();
+    return { ok:true, orders:snap.docs.map(d=>({id:d.id,...d.data(),createdAt:d.data().createdAt?.toDate?.()?.toISOString()||null,updatedAt:d.data().updatedAt?.toDate?.()?.toISOString()||null})) };
+  }
+);
+
+exports.reviewOrder = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    requireAdmin(request);
+    const id=String(request.data?.orderId||'').trim();
+    const status=String(request.data?.status||'').trim();
+    if(!id || !['pending','processing','shipped','delivered','cancelled'].includes(status)) throw new HttpsError('invalid-argument','অর্ডারের status সঠিক নয়।');
+    const ref=db.collection('orders').doc(id);
+    const snap=await ref.get();
+    if(!snap.exists) throw new HttpsError('not-found','অর্ডার পাওয়া যায়নি।');
+    await ref.update({status,reviewedAt:FieldValue.serverTimestamp(),reviewedBy:request.auth.uid,updatedAt:FieldValue.serverTimestamp()});
+    return {ok:true,id,status};
+  }
+);
+
 exports.submitTrainingApplication = onCall(
   { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
