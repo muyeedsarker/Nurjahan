@@ -102,15 +102,21 @@ exports.submitPayment = onCall(
     if (!websiteId || !websiteName || !senderPhone || !trxId || !['bKash','Nagad'].includes(method)) {
       throw new HttpsError('invalid-argument', 'Payment তথ্য সঠিক নয়।');
     }
-    const paymentQuery = db.collection('payments').where('method','==',method).where('trxId','==',trxId).limit(1);
-    const existing = await paymentQuery.get();
-    if (!existing.empty) {
-      throw new HttpsError('already-exists', 'এই Transaction ID আগে ব্যবহার করা হয়েছে।');
-    }
+    const keyId = Buffer.from(`${method.toLowerCase()}:${trxId}`).toString('base64url').slice(0, 150);
+    const keyRef = db.collection('paymentTrxKeys').doc(keyId);
     const paymentRef = db.collection('payments').doc();
     await db.runTransaction(async (tx) => {
-      const again = await tx.get(paymentRef);
-      if (again.exists) throw new HttpsError('aborted', 'Payment তৈরি করা যায়নি।');
+      const keySnap = await tx.get(keyRef);
+      if (keySnap.exists) {
+        throw new HttpsError('already-exists', 'এই Transaction ID আগে ব্যবহার করা হয়েছে।');
+      }
+      tx.set(keyRef, {
+        paymentId: paymentRef.id,
+        method: method.toLowerCase(),
+        trxId,
+        status:'pending',
+        createdAt:FieldValue.serverTimestamp()
+      });
       tx.set(paymentRef, {
         websiteId, websiteName, domain, packageName:'Premium', packageAmount:399,
         billing:'monthly', method, senderPhone, trxId, amount:399,
