@@ -38,4 +38,76 @@
  const journey=document.querySelector('.card:last-of-type .muted');
  if(journey)journey.innerHTML='Selected Business → Only relevant features → Customize → Preview → Save/Publish';
 })();
+</script><script id="nj-business-profile">
+(function(){
+const P={
+"Electronics & Gadgets":["AI Support","Contact","Products","Gallery","SEO"],
+"Fashion & Clothing":["AI Support","Contact","Products","Gallery","Offers","SEO"],
+"Shoes & Bags":["AI Support","Contact","Products","Gallery","Offers"],
+"Beauty & Personal Care":["AI Support","Contact","Products","Gallery","Offers","SEO"],
+"Restaurant & Food":["Menu","Online Order","Gallery","Contact","Location"],
+"Grocery & Daily Needs":["Products","Online Order","Delivery","Contact","Location"],
+"Home & Kitchen":["Products","Gallery","Contact","Offers","SEO"],
+"Furniture & Home Decor":["Products","Gallery","Contact","Location","Offers"],
+"Baby & Kids":["Products","Gallery","Offers","Contact"],
+"Health & Medical":["Services","Appointment","Contact","Location","SEO"],
+"Medicine & Pharmacy":["Products","Contact","Location","Delivery","SEO"],
+"Sports & Fitness":["Products","Services","Gallery","Contact","Booking"],
+"Automotive":["Products","Services","Gallery","Contact","Location"],
+"Motorcycle & Parts":["Products","Services","Gallery","Contact"],
+"Jewelry & Watches":["Products","Gallery","Offers","Contact","SEO"],
+"Books & Stationery":["Products","Online Order","Gallery","Contact","SEO"],
+"Computer & IT":["Products","Services","Contact","SEO","AI Support"],
+"Gaming":["Products","Gallery","Offers","Contact"],
+"Agriculture & Farming":["Products","Gallery","Contact","Location"],
+"Livestock & Poultry":["Products","Services","Gallery","Contact"],
+"Fish & Aquaculture":["Products","Gallery","Contact","Location"],
+"Construction & Hardware":["Products","Services","Gallery","Contact"],
+"Tools & Machinery":["Products","Services","Gallery","Contact"],
+"Solar & Renewable Energy":["Products","Services","Gallery","Contact","SEO"],
+"Business & Industrial":["Services","Products","Contact","Location","SEO"],
+"Property & Real Estate":["Property Listings","Gallery","Contact","Location","Appointment"],
+"Transport & Ride":["Booking","Contact","Location","Services"],
+"Travel & Tourism":["Packages","Booking","Gallery","Contact","Location"],
+"Hotel & Resort":["Rooms","Booking","Gallery","Location","Contact"],
+"Booking & Appointment":["Booking","Calendar","Contact","Services","Notifications"],
+"Online Order":["Products","Online Order","Delivery","Payment","Contact"],
+"Digital Products":["Products","Download","Payment","Contact","SEO"],
+"Education & Training":["Courses","Admission","Gallery","Contact","SEO"],
+"Jobs & Career":["Jobs","Application","Contact","Search","SEO"],
+"Professional Services":["Services","Booking","Contact","Portfolio","SEO"],
+"Home Services":["Services","Booking","Contact","Location","Reviews"],
+"Photography & Media":["Portfolio","Gallery","Booking","Contact","SEO"],
+"Gifts & Handmade":["Products","Gallery","Offers","Online Order","Contact"],
+"Organic & Herbal":["Products","Gallery","Contact","SEO"],
+"Pet Supplies":["Products","Online Order","Delivery","Contact"],
+"Courier & Delivery":["Booking","Tracking","Delivery","Contact","Location"],
+"Event & Wedding Services":["Services","Gallery","Booking","Contact","Location"]
+};
+const aliases={"Electronics":"Electronics & Gadgets","Pharmacy":"Medicine & Pharmacy","Restaurant":"Restaurant & Food","Doctor / Clinic":"Health & Medical","Real Estate":"Property & Real Estate","Education":"Education & Training","Hotel":"Hotel & Resort","Travel":"Travel & Tourism","Fashion & Clothing":"Fashion & Clothing","Computer":"Computer & IT","Grocery":"Grocery & Daily Needs","Cosmetics & Beauty":"Beauty & Personal Care","Electrical":"Electrical"};
+const params=new URLSearchParams(location.search);
+let selected=params.get("category")||localStorage.getItem("njSelectedCategory");
+selected=aliases[selected]||selected;
+if(!selected||!P[selected])return;
+localStorage.setItem("njSelectedCategory",selected);
+const type=document.getElementById("type");
+if(type){
+ let opt=[...type.options].find(o=>aliases[o.textContent.trim()]===selected||o.textContent.trim()===selected);
+ if(!opt){opt=document.createElement("option");opt.textContent=selected;type.appendChild(opt)}
+ type.value=opt.textContent;
+}
+const label=document.querySelector('label[for="type"]')||[...document.querySelectorAll("label")].find(x=>x.textContent.trim()==="Website Type");
+if(label)label.textContent="Website Type — "+selected;
+const chips=[...document.querySelectorAll("#builder .chips .chip")];
+const wanted=P[selected].map(x=>x.toLowerCase());
+chips.forEach(ch=>{
+ const t=ch.textContent.replace(/^✓\s*/,"").trim().toLowerCase();
+ ch.style.display=wanted.some(w=>t.includes(w)||w.includes(t))?"inline-flex":"none";
+});
+const badge=document.createElement("div");
+badge.style.cssText="margin:10px 0;padding:10px 13px;border-radius:12px;background:#eff6ff;color:#1d4ed8;font-weight:900;border:1px solid #bfdbfe";
+badge.textContent="✓ আপনার নির্বাচিত Business: "+selected;
+const builder=document.getElementById("builder");
+if(builder&&!document.getElementById("nj-selected-business")){badge.id="nj-selected-business";builder.insertBefore(badge,builder.querySelector(".row"))}
+})();
 </script></body></html>
