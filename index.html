@@ -280,4 +280,45 @@ const b=e.target.closest("#publishBtn");if(!b)return;
 saved();
 });
 })();
+</script><script id="nj-one-click-create">
+(function(){
+function buildDraft(){
+ const id=localStorage.getItem("nurjahanSiteId")||crypto.randomUUID();
+ localStorage.setItem("nurjahanSiteId",id);
+ const q=new URLSearchParams(location.search);
+ const template=q.get("template")||localStorage.getItem("njSelectedTemplate")||"Electronics Store";
+ const category=q.get("category")||localStorage.getItem("njSelectedCategory")||document.getElementById("type")?.value||"ইলেকট্রনিক্স ও গ্যাজেট";
+ const name=document.getElementById("name")?.value.trim()||template;
+ const phone=document.getElementById("phone")?.value.trim()||"";
+ const title=document.getElementById("title")?.value.trim()||template;
+ const data={name,phone,type:category,title,desc:"Nurjahan.com-এর তৈরি প্রফেশনাল ওয়েবসাইট",websiteId:id,domain:"",updatedAt:new Date().toISOString(),template};
+ localStorage.setItem("nurjahanWebsiteData",JSON.stringify(data));
+ return {id,template,category,data};
+}
+async function createNow(){
+ const x=buildDraft();
+ try{
+  const m=await import("./firebase-config.js");
+  const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js");
+  await setDoc(doc(m.db,"websites",x.id),x.data,{merge:true});
+  let box=document.getElementById("nj-create-result");
+  if(!box){box=document.createElement("div");box.id="nj-create-result";box.style.cssText="margin-top:14px;padding:16px;border-radius:16px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46";document.getElementById("previewBox")?.appendChild(box);}
+  const preview="index.html?category="+encodeURIComponent(x.category)+"&template="+encodeURIComponent(x.template);
+  box.innerHTML="<b>✅ ওয়েবসাইট তৈরি হয়েছে!</b><p style='margin:6px 0'>"+x.template+" — Draft ID: "+x.id+"</p><div style='display:flex;gap:8px;flex-wrap:wrap'><a class='btn' href='"+preview+"'>👁️ ওয়েবসাইট প্রিভিউ</a><a class='btn green' href='packages.html'>🚀 Publish / Live করতে প্যাকেজ</a></div>";
+  box.scrollIntoView({behavior:"smooth",block:"center"});
+ }catch(err){
+  alert("ওয়েবসাইট Draft তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+  console.error(err);
+ }
+}
+window.njCreateWebsiteNow=createNow;
+document.addEventListener("DOMContentLoaded",function(){
+ const host=document.getElementById("previewBox")||document.getElementById("preview");
+ if(!host)return;
+ if(document.getElementById("nj-create-now"))return;
+ const b=document.createElement("button");b.id="nj-create-now";b.type="button";b.textContent="🚀 এই ওয়েবসাইটটি এখনই তৈরি করুন";
+ b.style.cssText="width:100%;margin-top:14px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#16a34a,#2563eb);color:#fff;font-weight:900;font-size:16px;box-shadow:0 12px 28px rgba(37,99,235,.2)";
+ b.onclick=createNow;host.appendChild(b);
+});
+})();
 </script></body></html>
