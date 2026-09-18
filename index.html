@@ -260,7 +260,7 @@ const sections={"Electronics Store":["পণ্যসমূহ","দাম ও �
 window.generate=function(){
 if(typeof oldGenerate==="function")oldGenerate();
 const box=document.getElementById("preview");if(!box)return;
-const template=localStorage.getItem("njSelectedTemplate")||"Electronics Store";
+const q=new URLSearchParams(location.search);const template=q.get("template")||localStorage.getItem("njSelectedTemplate")||"Electronics Store";
 const title=names[template]||template;
 let p=document.getElementById("nj-live-template-preview");
 if(!p){p=document.createElement("div");p.id="nj-live-template-preview";box.appendChild(p)}
