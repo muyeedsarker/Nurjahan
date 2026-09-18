@@ -177,9 +177,11 @@ exports.createSupportTicket = onCall(
   async (request) => {
     const data = request.data || {};
     const message = String(data.message || '').trim();
+    const websiteId = String(data.websiteId || '').trim().slice(0, 120);
     if (message.length > 4000) throw new HttpsError('invalid-argument', 'বার্তাটি খুব বড়।');
     if (!message) throw new HttpsError('invalid-argument', 'প্রশ্ন পাওয়া যায়নি।');
     const ref = await db.collection('supportTickets').add({
+      websiteId,
       message: message.slice(0, 4000),
       conversation: Array.isArray(data.conversation) ? data.conversation.slice(-12) : [],
       source: 'ai-customer-support',
