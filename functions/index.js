@@ -31,6 +31,9 @@ exports.reviewPayment = onCall(
       }
 
       const trx = String(payment.trxId || '').trim().toUpperCase();
+      const packageName = String(payment.packageName || 'Premium');
+      const packageAmount = Number(payment.packageAmount || payment.amount || 399);
+      const isEcommerce = packageName === 'E-commerce' && packageAmount === 1999;
       const method = String(payment.method || '').trim().toLowerCase();
       if (!trx || !['bkash', 'nagad'].includes(method)) {
         throw new HttpsError('invalid-argument', 'Payment method বা Transaction ID সঠিক নয়।');
@@ -77,8 +80,10 @@ exports.reviewPayment = onCall(
           status: 'live',
           paid: true,
           subscriptionStatus: 'active',
-          billing: 'monthly',
-          monthlyAmount: 399,
+          billing: isEcommerce ? 'one-time' : 'monthly',
+          monthlyAmount: isEcommerce ? 0 : 399,
+          packageAmount,
+          supportPeriod: isEcommerce ? '1-year' : null,
           paidAt: FieldValue.serverTimestamp(),
           nextPaymentDue: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           updatedAt: FieldValue.serverTimestamp()
@@ -99,7 +104,11 @@ exports.submitPayment = onCall(
     const method = String(data.method || '').trim();
     const senderPhone = String(data.senderPhone || '').trim();
     const trxId = String(data.trxId || '').trim().toUpperCase();
-    if (!websiteId || !websiteName || !senderPhone || !trxId || !['bKash','Nagad'].includes(method)) {
+    const packageName = String(data.packageName || 'Premium').trim();
+    const packageAmount = Number(data.packageAmount || 0);
+    const billing = String(data.billing || '').trim();
+    const validPackage = (packageName === 'Premium' && packageAmount === 399 && billing === 'monthly') || (packageName === 'E-commerce' && packageAmount === 1999 && billing === 'one-time');
+    if (!websiteId || !websiteName || !senderPhone || !trxId || !validPackage || !['bKash','Nagad'].includes(method)) {
       throw new HttpsError('invalid-argument', 'Payment তথ্য সঠিক নয়।');
     }
     const keyId = Buffer.from(`${method.toLowerCase()}:${trxId}`).toString('base64url').slice(0, 150);
@@ -118,8 +127,8 @@ exports.submitPayment = onCall(
         createdAt:FieldValue.serverTimestamp()
       });
       tx.set(paymentRef, {
-        websiteId, websiteName, domain, packageName:'Premium', packageAmount:399,
-        billing:'monthly', method, senderPhone, trxId, amount:399,
+        websiteId, websiteName, domain, packageName, packageAmount,
+        billing, method, senderPhone, trxId, amount:packageAmount,
         status:'pending', createdAt:FieldValue.serverTimestamp()
       });
     });
