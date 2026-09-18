@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function allowedPaymentCreate() {
+      return request.resource.data.status == 'pending'
+        && request.resource.data.method in ['bKash', 'Nagad']
+        && request.resource.data.packageName == 'Premium'
+        && request.resource.data.packageAmount == 399
+        && request.resource.data.amount == 399
+        && request.resource.data.keys().hasOnly([
+          'websiteId','websiteName','domain','packageName','packageAmount','billing',
+          'method','senderPhone','trxId','amount','status','createdAt'
+        ]);
+    }
+
+    function allowedWebsiteCreate() {
+      return !request.resource.data.keys().hasAny(['status','paid','subscriptionStatus']);
+    }
+
+    match /payments/{paymentId} {
+      allow read: if isAdmin();
+      allow create: if allowedPaymentCreate();
+      allow update, delete: if isAdmin();
+    }
+
+    match /websites/{websiteId} {
+      allow create: if allowedWebsiteCreate();
+      allow get: if resource.data.status == 'live';
+      allow list: if false;
+      allow update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
