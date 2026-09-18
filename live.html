@@ -9,7 +9,26 @@
 const themeMap={ocean:['#0ea5e9','#2563eb'],royal:['#7c3aed','#4f46e5'],emerald:['#059669','#10b981'],tech:['#0f172a','#2563eb'],galaxy:['#7c3aed','#ec4899']};
 const tv=themeMap[String(d.theme||'ocean')];if(tv){document.documentElement.style.setProperty('--nj-live-a',tv[0]);document.documentElement.style.setProperty('--nj-live-b',tv[1]);document.body.dataset.njTheme=d.theme||'ocean';}
 if(d.template){document.body.dataset.njTemplate=d.template;}
-if(d.status!=='live'){app.innerHTML='<section class="card"><h2>⏳ ওয়েবসাইট এখনো লাইভ নয়</h2><p class="muted">পেমেন্ট অনুমোদনের পর ওয়েবসাইট চালু হবে।</p></section>';return}const universal=document.getElementById('nj-universal-live');const ug=document.getElementById('nj-universal-grid');const type=String(d.type||'');const sectionMap={
+if(d.status!=='live'){app.innerHTML='<section class="card"><h2>⏳ ওয়েবসাইট এখনো লাইভ নয়</h2><p class="muted">পেমেন্ট অনুমোদনের পর ওয়েবসাইট চালু হবে।</p></section>';return}const universal=document.getElementById('nj-universal-live');
+const template=String(d.template||d.type||'');
+const presetMap={
+'Electronics Store':['🛍️ পণ্যসমূহ','🏷️ দাম ও অফার','🖼️ গ্যালারি','📞 যোগাযোগ'],
+'Restaurant & Cafe':['🍽️ মেনু','🛒 অনলাইন অর্ডার','📅 টেবিল বুকিং','🖼️ গ্যালারি'],
+'Pharmacy':['💊 ওষুধ ও পণ্য','🚚 হোম ডেলিভারি','📞 ফার্মেসি যোগাযোগ','📍 লোকেশন'],
+'Doctor / Clinic':['👨‍⚕️ ডাক্তার পরিচিতি','🩺 চিকিৎসা সেবা','📅 অ্যাপয়েন্টমেন্ট','📍 ক্লিনিক লোকেশন'],
+'Real Estate':['🏠 প্রপার্টি তালিকা','💰 মূল্য ও অফার','📅 ভিজিট বুকিং','📍 লোকেশন'],
+'Hotel & Resort':['🛏️ রুম ও সুবিধা','📅 রুম বুকিং','🎁 প্যাকেজ','🖼️ গ্যালারি'],
+'Education Institute':['🎓 কোর্সসমূহ','📝 ভর্তি আবেদন','📢 নোটিশ','📊 ফলাফল'],
+'Fashion Boutique':['👗 নতুন কালেকশন','🏷️ অফার','🛍️ পণ্যসমূহ','🖼️ গ্যালারি'],
+'Beauty & Personal Care':['💄 সেবা ও প্যাকেজ','📅 বুকিং','💰 মূল্য','📞 যোগাযোগ'],
+'Computer & IT':['💻 আইটি সেবা','🛠️ টেক সাপোর্ট','📦 প্যাকেজ','📞 যোগাযোগ'],
+'Travel Agency':['✈️ ট্যুর প্যাকেজ','📅 বুকিং','🗺️ ভ্রমণ পরিকল্পনা','📞 যোগাযোগ'],
+'Car Showroom':['🚗 গাড়ির তালিকা','💰 মূল্য','📅 টেস্ট ড্রাইভ','📞 যোগাযোগ'],
+'Furniture & Decor':['🛋️ ফার্নিচার','🏷️ মূল্য ও অফার','🖼️ গ্যালারি','📞 যোগাযোগ'],
+'Wedding & Events':['💍 ইভেন্ট প্যাকেজ','🎨 ডেকোরেশন','📅 বুকিং','📞 যোগাযোগ'],
+'Photography Studio':['📸 ফটোগ্রাফি প্যাকেজ','🎥 ভিডিও সেবা','🖼️ পোর্টফোলিও','📅 বুকিং']
+};
+const templateItems=presetMap[template]||null;const ug=document.getElementById('nj-universal-grid');const type=String(d.type||'');const sectionMap={
 'স্কুল':['🏫 শ্রেণিসমূহ','📝 ভর্তি আবেদন','📢 নোটিশ','🗓️ রুটিন','📊 ফলাফল','👨‍👩‍👧 অভিভাবক তথ্য'],
 'কলেজ':['🎓 বিভাগসমূহ','📝 ভর্তি','📢 নোটিশ','📊 ফলাফল','📚 একাডেমিক তথ্য','📞 যোগাযোগ'],
 'মাদ্রাসা':['🕌 বিভাগসমূহ','📝 ভর্তি','📢 নোটিশ','📊 ফলাফল','📚 পাঠ্যক্রম','📞 যোগাযোগ'],
