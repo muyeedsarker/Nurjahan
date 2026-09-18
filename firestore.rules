@@ -32,6 +32,11 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    match /trainingApplications/{applicationId} {
+      allow read, update: if isAdmin();
+      allow create, delete: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
