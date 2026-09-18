@@ -5,39 +5,31 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.admin == true;
     }
 
-    function allowedPaymentCreate() {
-      return request.resource.data.status == 'pending'
-        && request.resource.data.method in ['bKash', 'Nagad']
-        && request.resource.data.packageName == 'Premium'
-        && request.resource.data.packageAmount == 399
-        && request.resource.data.amount == 399
-        && request.resource.data.keys().hasOnly([
-          'websiteId','websiteName','domain','packageName','packageAmount','billing',
-          'method','senderPhone','trxId','amount','status','createdAt'
-        ]);
-    }
-
-    function allowedWebsiteCreate() {
-      return request.resource.data.keys().hasOnly(['name','phone','type','address','title','desc','createdAt','updatedAt','domain','websiteId','packageName','packageAmount','billing']) && !request.resource.data.keys().hasAny(['status','paid','subscriptionStatus']);
+    function safeWebsiteData() {
+      return request.resource.data.keys().hasOnly([
+        'name','phone','type','address','title','desc','createdAt','updatedAt',
+        'domain','websiteId','packageName','packageAmount','billing'
+      ])
+      && !request.resource.data.keys().hasAny([
+        'status','paid','subscriptionStatus'
+      ])
+      && request.resource.data.websiteId == websiteId;
     }
 
     match /payments/{paymentId} {
       allow read: if isAdmin();
-      // Payment documents are created only by the App Check-protected Cloud Function.
       allow create: if false;
       allow update, delete: if isAdmin();
     }
 
     match /websites/{websiteId} {
-      allow create: if allowedWebsiteCreate();
-      allow update: if !isAdmin()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-          'name','phone','type','address','title','desc','createdAt','updatedAt','domain','websiteId','packageName','packageAmount','billing'
-        ]);
+      // Builder can create/update only the customer's own safe draft fields.
+      // Protected live/payment fields can never be written by the public client.
+      allow create: if safeWebsiteData();
+      allow update: if safeWebsiteData();
       allow get: if resource.data.status == 'live';
-      // Public clients may never list/query websites; live documents are read only by known document ID.
       allow list: if false;
-      allow update, delete: if isAdmin();
+      allow delete: if isAdmin();
     }
 
     match /{document=**} {
