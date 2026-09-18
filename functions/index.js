@@ -136,6 +136,42 @@ exports.submitPayment = onCall(
   }
 );
 
+exports.submitOrder = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    const data = request.data || {};
+    const websiteId = String(data.websiteId || '').trim();
+    const name = String(data.name || '').trim();
+    const phone = String(data.phone || '').trim();
+    const address = String(data.address || '').trim();
+    const items = Array.isArray(data.items) ? data.items.slice(0, 50) : [];
+    if (!websiteId || !name || !phone || !address || !items.length) {
+      throw new HttpsError('invalid-argument', 'অর্ডারের তথ্য অসম্পূর্ণ।');
+    }
+    if (name.length > 120 || phone.length > 30 || address.length > 500) {
+      throw new HttpsError('invalid-argument', 'অর্ডারের তথ্যের দৈর্ঘ্য সঠিক নয়।');
+    }
+    const cleanItems = items.map(x => ({
+      name: String(x?.name || '').trim().slice(0, 200),
+      price: Number(x?.price || 0),
+      qty: Math.max(1, Math.min(99, Number(x?.qty || 1)))
+    })).filter(x => x.name && Number.isFinite(x.price) && x.price >= 0);
+    if (!cleanItems.length) throw new HttpsError('invalid-argument', 'পণ্যের তথ্য সঠিক নয়।');
+    const total = cleanItems.reduce((sum, x) => sum + x.price * x.qty, 0);
+    if (!Number.isFinite(total) || total > 10000000) throw new HttpsError('invalid-argument', 'অর্ডারের মোট মূল্য সঠিক নয়।');
+    const websiteSnap = await db.collection('websites').doc(websiteId).get();
+    if (!websiteSnap.exists || websiteSnap.data().status !== 'live') {
+      throw new HttpsError('failed-precondition', 'এই ওয়েবসাইটটি এখনো Live নয়।');
+    }
+    const ref = await db.collection('orders').add({
+      websiteId, name, phone, address, items: cleanItems, total,
+      status: 'pending', source: 'live-ecommerce',
+      createdAt: FieldValue.serverTimestamp(), updatedAt: FieldValue.serverTimestamp()
+    });
+    return { ok: true, id: ref.id, status: 'pending', total };
+  }
+);
+
 exports.createSupportTicket = onCall(
   { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
