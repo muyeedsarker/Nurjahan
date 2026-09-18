@@ -108,3 +108,33 @@ button,.btn,.button,.theme-btn,.nj-theme-btn{color:var(--nj-on-accent)!important
 input,select,textarea{color:var(--nj-text)!important}
 #businessTemplates .template{color:var(--nj-text)!important}
 #businessTemplates .template .muted{color:var(--nj-muted)!important}
+
+
+/* Nurjahan Premium Sliding Button UI v1 */
+button,.btn,.button,.theme-btn,.nj-theme-btn,.nj-q-actions button,.nj-q-actions a,.nj-q-grid button{
+  position:relative;overflow:hidden;isolation:isolate;
+  transition:transform .22s ease,box-shadow .22s ease,filter .22s ease,background .22s ease;
+}
+button::before,.btn::before,.button::before,.theme-btn::before,.nj-theme-btn::before,.nj-q-actions button::before,.nj-q-actions a::before,.nj-q-grid button::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.34) 48%,transparent 76%);
+  transform:translateX(-125%);transition:transform .55s ease;
+}
+button:hover,.btn:hover,.button:hover,.theme-btn:hover,.nj-theme-btn:hover,.nj-q-actions button:hover,.nj-q-actions a:hover,.nj-q-grid button:hover{
+  transform:translateY(-2px) scale(1.015);filter:saturate(1.12);box-shadow:0 10px 24px rgba(15,23,42,.16);
+}
+button:hover::before,.btn:hover::before,.button:hover::before,.theme-btn:hover::before,.nj-theme-btn:hover::before,.nj-q-actions button:hover::before,.nj-q-actions a:hover::before,.nj-q-grid button:hover::before{transform:translateX(125%)}
+button:active,.btn:active,.button:active,.theme-btn:active,.nj-theme-btn:active,.nj-q-actions button:active,.nj-q-actions a:active,.nj-q-grid button:active{transform:translateY(1px) scale(.98);box-shadow:0 4px 10px rgba(15,23,42,.12)}
+.chips.theme-buttons .theme-btn,.chips.theme-buttons .nj-theme-btn{
+  border:1px solid rgba(255,255,255,.42)!important;border-radius:14px!important;
+  background:linear-gradient(135deg,var(--nj-a,#2563eb),var(--nj-b,#06b6d4))!important;
+  color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.25)!important;
+  box-shadow:0 7px 18px color-mix(in srgb,var(--nj-a,#2563eb) 28%,transparent);
+}
+.chips.theme-buttons .theme-btn.active,.chips.theme-buttons .nj-theme-btn.active{
+  outline:2px solid var(--nj-a,#2563eb);outline-offset:2px;transform:translateY(-2px) scale(1.03);box-shadow:0 11px 25px color-mix(in srgb,var(--nj-a,#2563eb) 38%,transparent)!important;
+}
+@media(max-width:600px){
+  .chips.theme-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .chips.theme-buttons .theme-btn,.chips.theme-buttons .nj-theme-btn{height:48px!important;font-size:12px!important;padding:6px 8px!important}
+}
