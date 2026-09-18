@@ -191,6 +191,30 @@ exports.createSupportTicket = onCall(
   }
 );
 
+exports.listSupportTickets = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    requireAdmin(request);
+    const snap = await db.collection('supportTickets').orderBy('createdAt','desc').limit(100).get();
+    return { ok:true, tickets:snap.docs.map(d=>({id:d.id,...d.data(),createdAt:d.data().createdAt?.toDate?.()?.toISOString()||null})) };
+  }
+);
+
+exports.reviewSupportTicket = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    requireAdmin(request);
+    const id=String(request.data?.ticketId||'').trim();
+    const status=String(request.data?.status||'').trim();
+    if(!id || !['pending','resolved','closed'].includes(status)) throw new HttpsError('invalid-argument','Support status সঠিক নয়।');
+    const ref=db.collection('supportTickets').doc(id);
+    const snap=await ref.get();
+    if(!snap.exists) throw new HttpsError('not-found','Support ticket পাওয়া যায়নি।');
+    await ref.update({status,reviewedAt:FieldValue.serverTimestamp(),reviewedBy:request.auth.uid});
+    return {ok:true,id,status};
+  }
+);
+
 exports.listOrders = onCall(
   { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
