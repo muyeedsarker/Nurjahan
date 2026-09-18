@@ -1,6 +1,7 @@
 import { getAI, getGenerativeModel, GoogleAIBackend } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-ai.js';
 import { app, db } from './firebase-config.js';
-import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-functions.js';
+const functions = getFunctions(app);
 
 const ai = getAI(app, { backend: new GoogleAIBackend() });
 const model = getGenerativeModel(ai, {
@@ -22,13 +23,7 @@ export async function askNurjahanAI(message, history = []) {
 export async function createSupportTicket(message, conversation = [], metadata = {}) {
   const clean = String(message || '').trim();
   if (!clean) throw new Error('প্রশ্ন পাওয়া যায়নি।');
-  const ref = await addDoc(collection(db, 'supportTickets'), {
-    message: clean,
-    conversation: conversation.slice(-12),
-    source: 'ai-customer-support',
-    status: 'pending',
-    ...metadata,
-    createdAt: serverTimestamp()
-  });
-  return ref.id;
+  const call = httpsCallable(functions, 'createSupportTicket');
+  const result = await call({ message: clean, conversation: conversation.slice(-12), metadata });
+  return result.data?.id;
 }
