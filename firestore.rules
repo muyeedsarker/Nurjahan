@@ -32,10 +32,7 @@ service cloud.firestore {
       allow update: if !isAdmin()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'name','phone','type','address','title','desc','createdAt','updatedAt','domain','websiteId','packageName','packageAmount','billing'
-        ])
-        && request.resource.data.status == resource.data.status
-        && request.resource.data.paid == resource.data.paid
-        && request.resource.data.subscriptionStatus == resource.data.subscriptionStatus;
+        ]);
       allow get: if resource.data.status == 'live';
       // Public clients may never list/query websites; live documents are read only by known document ID.
       allow list: if false;
