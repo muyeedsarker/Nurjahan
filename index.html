@@ -40,6 +40,33 @@
  const journey=document.querySelector('.card:last-of-type .muted');
  if(journey)journey.innerHTML='Selected Business → Only relevant features → Customize → Preview → Save/Publish';
 })();
+</script><script id="nj-builder-rescue">
+(function(){
+  function boot(){
+    const save=document.getElementById('saveBtn'), pub=document.getElementById('publishBtn'), status=document.getElementById('status');
+    if(!save||!pub)return;
+    async function act(mode){
+      const d={name:(document.getElementById('name')?.value||'').trim(),phone:(document.getElementById('phone')?.value||'').trim(),type:document.getElementById('type')?.value||'',address:(document.getElementById('address')?.value||'').trim(),title:(document.getElementById('title')?.value||'').trim(),desc:(document.getElementById('desc')?.value||'').trim()};
+      if(!d.name){if(status)status.textContent='ব্যবসার নাম দিন।';return;}
+      save.disabled=true;pub.disabled=true;
+      if(status)status.textContent='⏳ Save হচ্ছে…';
+      try{
+        const [fc,fs]=await Promise.all([import('./firebase-config.js?v=9'),import('https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js?v=9')]);
+        const siteId=localStorage.getItem('nurjahanSiteId')||crypto.randomUUID();
+        localStorage.setItem('nurjahanSiteId',siteId);
+        await fs.setDoc(fs.doc(fc.db,'websites',siteId),{...d,websiteId:siteId,updatedAt:fs.serverTimestamp()},{merge:true});
+        localStorage.setItem('nurjahanWebsiteData',JSON.stringify(d));
+        localStorage.setItem('nurjahanDraft',JSON.stringify(d));
+        if(mode==='save'){if(status)status.textContent='✅ Save সফল হয়েছে!';const ok=document.getElementById('saved');if(ok)ok.style.display='block';}
+        else{if(status)status.textContent='✅ Save সফল — Packages-এ যাচ্ছি…';location.href='packages.html';}
+      }catch(e){if(status)status.textContent='❌ '+(e?.message||'Firebase error');}
+      finally{save.disabled=false;pub.disabled=false;}
+    }
+    save.onclick=function(e){e.preventDefault();act('save')};
+    pub.onclick=function(e){e.preventDefault();act('publish')};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
 </script><script id="nj-business-profile">
 (function(){
 const P={
