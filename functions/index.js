@@ -89,7 +89,7 @@ exports.reviewPayment = onCall(
           updatedAt: FieldValue.serverTimestamp()
         });
       }
-      return { ok: true, status: 'approved', websiteId: payment.websiteId || null };
+      return { ok: true, status: 'approved', websiteId: payment.websiteId || null, packageName, packageAmount, billing: isEcommerce ? 'one-time' : 'monthly' };
     });
   }
 );
