@@ -78,6 +78,7 @@
     document.title=code==='en'?'Nurjahan.com — Smart Business Platform':'Nurjahan.com — Smart Business Platform';
   }
   window.nurjahanTranslate=translate;
+  window.nurjahanTranslateAll=translate;
   window.addEventListener('nurjahan:languagechange',e=>translate(e.detail.language));
   const saved=localStorage.getItem('njLanguage')||'bn';
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>translate(saved));else translate(saved);
