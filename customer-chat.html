@@ -15,4 +15,4 @@ const chat=document.getElementById('chat'),input=document.getElementById('input'
 function add(text,who){const d=document.createElement('div');d.className='msg '+who;d.textContent=text;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
 async function ask(q){if(!q.trim())return;add(q,'user');const wait=add('⏳ আপনার অনুরোধটি বুঝে সাহায্য করছি...','bot');try{const m=await import('./ai-support.js');const answer=await m.askNurjahanAI(q,{source:'customer-chat'});wait.textContent=answer||'আপনার প্রয়োজন অনুযায়ী feature নির্বাচন করে Builder থেকে Preview করতে পারেন।'}catch(e){wait.textContent='এই মুহূর্তে AI সংযোগ করা যাচ্ছে না। Builder থেকে feature নির্বাচন করুন অথবা পরে চেষ্টা করুন।';console.error(e)}}
 document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const q=input.value.trim();input.value='';ask(q)});document.querySelectorAll('.quick button').forEach(b=>b.onclick=()=>ask(b.dataset.q));
-</script></body></html>
+</script><script src="./locale-content.js?v=3"></script><script src="./menu-locale.js?v=3"></script></body></html>
