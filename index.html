@@ -233,7 +233,7 @@ function render(){
  const selected=norm(new URLSearchParams(location.search).get("category")||localStorage.getItem("njSelectedCategory")||"");
  const list=selected?T.filter(x=>x[2]===selected):T;
  box.innerHTML=list.map(x=>'<button type="button" class="template" data-template="'+x[1]+'" data-category="'+x[2]+'">'+x[0]+' <b>'+x[1]+'</b><div class="muted">'+x[2]+'</div><span class="tpl-select">🚀 টেমপ্লেট নির্বাচন</span></button>').join("");
- hint.textContent=selected?"🎯 "+selected+" — শুধু আপনার Business-এর উপযোগী Template দেখানো হচ্ছে।":"ব্যবসা নির্বাচন করলে উপযোগী টেমপ্লেট দেখানো হবে।";
+ hint.textContent=selected?"🎯 "+selected+" — শুধু আপনার ব্যবসার উপযোগী টেমপ্লেট দেখানো হচ্ছে।":"ব্যবসা নির্বাচন করলে উপযোগী টেমপ্লেট দেখানো হবে।";
  box.querySelectorAll("[data-template]").forEach(b=>b.onclick=()=>{localStorage.setItem("njSelectedTemplate",b.dataset.template);localStorage.setItem("njSelectedCategory",b.dataset.category);location.href="index.html?category="+encodeURIComponent(b.dataset.category)+"&template="+encodeURIComponent(b.dataset.template)});
 }
 render();
@@ -242,4 +242,14 @@ render();
 #businessটেমপ্লেট .template{width:100%;text-align:left;cursor:pointer;min-height:100px;color:#172033;background:#f8fafc}
 #businessটেমপ্লেট .template:hover{border-color:#60a5fa;background:#eff6ff;transform:translateY(-1px)}
 .tpl-select{display:block;margin-top:8px;color:#2563eb;font-size:11px;font-weight:900}
+</style><style id="nj-template-premium-ui">
+#businessটেমপ্লেট{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+#businessটেমপ্লেট .template{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-height:150px!important;padding:18px!important;border:1px solid #dbe4f0!important;border-radius:20px!important;background:linear-gradient(145deg,#ffffff,#f8fbff)!important;box-shadow:0 8px 22px rgba(15,23,42,.07)!important;transition:transform .2s,box-shadow .2s,border-color .2s!important}
+#businessটেমপ্লেট .template:before{content:"";position:absolute;inset:0 0 auto;height:4px;border-radius:20px 20px 0 0;background:linear-gradient(90deg,#2563eb,#7c3aed,#06b6d4)}
+#businessটেমপ্লেট .template:hover{transform:translateY(-5px)!important;border-color:#93c5fd!important;box-shadow:0 16px 34px rgba(37,99,235,.16)!important}
+#businessটেমপ্লেট .template b{font-size:17px;line-height:1.35}
+#businessটেমপ্লেট .template .muted{font-size:12px;line-height:1.4}
+#businessটেমপ্লেট .template .tpl-select{margin-top:auto;width:100%;padding:10px 12px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff!important;text-align:center;font-weight:900}
+@media(max-width:800px){#businessটেমপ্লেট{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){#businessটেমপ্লেট{grid-template-columns:1fr;gap:11px}#businessটেমপ্লেট .template{min-height:135px!important}}
 </style></body></html>
