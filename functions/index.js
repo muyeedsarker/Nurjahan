@@ -182,3 +182,27 @@ exports.submitTrainingApplication = onCall(
     return { ok: true, id: ref.id, status: 'pending' };
   }
 );
+
+exports.listTrainingApplications = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    requireAdmin(request);
+    const snap = await db.collection('trainingApplications').orderBy('createdAt','desc').limit(100).get();
+    return { ok: true, applications: snap.docs.map(d => ({ id: d.id, ...d.data(), createdAt: d.data().createdAt?.toDate?.()?.toISOString() || null, updatedAt: d.data().updatedAt?.toDate?.()?.toISOString() || null })) };
+  }
+);
+
+exports.reviewTrainingApplication = onCall(
+  { enforceAppCheck: true, consumeAppCheckToken: true },
+  async (request) => {
+    requireAdmin(request);
+    const id = String(request.data?.applicationId || '').trim();
+    const status = String(request.data?.status || '').trim();
+    if (!id || !['accepted', 'rejected'].includes(status)) throw new HttpsError('invalid-argument', 'আবেদনের তথ্য সঠিক নয়।');
+    const ref = db.collection('trainingApplications').doc(id);
+    const snap = await ref.get();
+    if (!snap.exists) throw new HttpsError('not-found', 'আবেদন পাওয়া যায়নি।');
+    await ref.update({ status, reviewedAt: FieldValue.serverTimestamp(), reviewedBy: request.auth.uid, updatedAt: FieldValue.serverTimestamp() });
+    return { ok: true, id, status };
+  }
+);
