@@ -5,7 +5,11 @@
       "firebase.json",
       "firestore.rules",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "functions/**",
+      "*.md",
+      "*.txt",
+      "sw-v30*"
     ],
     "cleanUrls": true,
     "trailingSlash": false
