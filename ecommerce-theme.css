@@ -1,4 +1,9 @@
 :root{
+  --nj-bg:#FFFFFF;
+  --nj-card:#FFFFFF;
+  --nj-text:#0f172a;
+  --nj-muted:#475569;
+  --nj-on-accent:#fff;
   --brand-primary:#5B2EE0;
   --brand-light:#EEEDFE;
   --cta-primary:#FF6B6B;
@@ -19,13 +24,13 @@ a{color:var(--brand-primary)}
 a:hover{color:var(--brand-primary);text-decoration:underline}
 
 /* Global navigation/header */
-header,.header,.navbar,.nav,.site-header,.topbar{background:var(--brand-primary)!important;color:#fff!important;border-color:var(--brand-primary)!important}
-.nav a,.navbar a,.header a,.site-header a,.topbar a{color:#fff!important}
+header,.header,.navbar,.nav,.site-header,.topbar{background:var(--brand-primary)!important;color:var(--nj-on-accent)!important;border-color:var(--brand-primary)!important}
+.nav a,.navbar a,.header a,.site-header a,.topbar a{color:var(--nj-on-accent)!important}
 .nav a:hover,.navbar a:hover,.header a:hover,.site-header a:hover,.topbar a:hover{background:var(--brand-light)!important;color:var(--brand-primary)!important;text-decoration:none}
 
 /* Brand/logo */
 .logo,.brand,.brand-logo,.site-logo{color:var(--brand-primary)!important}
-header .logo,header .brand,header .brand-logo,header .site-logo{color:#fff!important}
+header .logo,header .brand,header .brand-logo,header .site-logo{color:var(--nj-on-accent)!important}
 
 /* Main surfaces */
 main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,.checkout,.footer-card{background:var(--bg-white)!important;color:var(--text-primary)!important;border-color:var(--border-color)!important}
@@ -40,8 +45,8 @@ main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,
 .price,.product-price,.amount,.total-price{color:var(--text-primary)!important;font-weight:800!important}
 
 /* Non-shopping buttons use brand purple */
-button,.btn,.button,.actions button,.pkg,.call,.free,.cta{background:var(--brand-primary)!important;color:#fff!important;border:1px solid var(--brand-primary)!important;border-radius:var(--radius)!important}
-button:hover,.btn:hover,.button:hover,.actions button:hover,.pkg:hover,.call:hover,.free:hover,.cta:hover{background:var(--brand-primary)!important;color:#fff!important;filter:brightness(.9)}
+button,.btn,.button,.actions button,.pkg,.call,.free,.cta{background:var(--brand-primary)!important;color:var(--nj-on-accent)!important;border:1px solid var(--brand-primary)!important;border-radius:var(--radius)!important}
+button:hover,.btn:hover,.button:hover,.actions button:hover,.pkg:hover,.call:hover,.free:hover,.cta:hover{background:var(--brand-primary)!important;color:var(--nj-on-accent)!important;filter:brightness(.9)}
 
 /* Shopping CTA — coral is reserved only for purchase actions */
 .add-to-cart,.buy-now,.cart-action,.purchase-action,.checkout-btn,.checkout-button,[data-action="add-to-cart"],[data-action="buy-now"],[data-action="checkout"]{
@@ -66,8 +71,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--brand-primary)!import
 hr,.divider{border-color:var(--border-color)!important}
 
 /* Footer */
-footer,.footer{background:var(--brand-primary)!important;color:#fff!important}
-footer a,.footer a{color:#fff!important}
+footer,.footer{background:var(--brand-primary)!important;color:var(--nj-on-accent)!important}
+footer a,.footer a{color:var(--nj-on-accent)!important}
 
 /* Dark mode: preserve brand identity and shopping CTA colors */
 @media (prefers-color-scheme:dark){
@@ -79,7 +84,7 @@ footer a,.footer a{color:#fff!important}
 }
 
 /* Floating/support controls remain brand purple, never shopping coral */
-.ai-launch,.camera,.nurjahan-camera-fab,.back,.link,.support,.save,.publish{background:var(--brand-primary)!important;color:#fff!important}
+.ai-launch,.camera,.nurjahan-camera-fab,.back,.link,.support,.save,.publish{background:var(--brand-primary)!important;color:var(--nj-on-accent)!important}
 
 /* Nurjahan Global UX Patch v1 */
 html{scroll-behavior:smooth}
@@ -128,7 +133,7 @@ button:active,.btn:active,.button:active,.theme-btn:active,.nj-theme-btn:active,
 .chips.theme-buttons .theme-btn,.chips.theme-buttons .nj-theme-btn{
   border:1px solid rgba(255,255,255,.42)!important;border-radius:14px!important;
   background:linear-gradient(135deg,var(--nj-a,#2563eb),var(--nj-b,#06b6d4))!important;
-  color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.25)!important;
+  color:var(--nj-on-accent)!important;text-shadow:0 1px 2px rgba(0,0,0,.25)!important;
   box-shadow:0 7px 18px color-mix(in srgb,var(--nj-a,#2563eb) 28%,transparent);
 }
 .chips.theme-buttons .theme-btn.active,.chips.theme-buttons .nj-theme-btn.active{
