@@ -57,14 +57,6 @@ window.publish=()=>saveToFirebase('publish');
    if(!opt){opt=document.createElement('option');opt.textContent=selected;type.appendChild(opt);}
    type.value=opt.textContent;
  }
- const title=document.querySelector('.hero h1');
- if(title){
-   const badge=document.createElement('div');
-   badge.id='nj-selected-badge';
-   badge.style.cssText='display:inline-flex;align-items:center;gap:7px;margin:8px 0;padding:8px 12px;border-radius:999px;background:#eff6ff;color:#2563eb;font-weight:900;font-size:13px';
-   badge.textContent='✓ Selected Business: '+selected;
-   title.insertAdjacentElement('afterend',badge);
- }
  const featureMap={
    'Electronics':['এআই সহায়তা','Contact','Products','Gallery','এসইও'],
    'Electrical':['Contact','Services','Gallery','এসইও','WhatsApp'],
