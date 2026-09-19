@@ -1,4 +1,5 @@
 :root{
+  --nj-bg:#fff;--nj-card:#fff;--nj-text:#0f172a;--nj-muted:#475569;--nj-on-accent:#fff;
   --brand-primary:#5B2EE0;
   --brand-light:#EEEDFE;
   --cta-primary:#FF6B6B;
@@ -12,7 +13,7 @@
   --radius:8px;
 }
 
-html,body{background:var(--bg-white)!important;color:var(--text-primary)!important}
+html,body{background:var(--nj-bg,var(--bg-white))!important;color:var(--nj-text,var(--text-primary))!important}
 body{line-height:1.6}
 
 a{color:var(--brand-primary)}
@@ -28,7 +29,7 @@ header,.header,.navbar,.nav,.site-header,.topbar{background:var(--brand-primary)
 header .logo,header .brand,header .brand-logo,header .site-logo{color:#fff!important}
 
 /* Main surfaces */
-main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,.checkout,.footer-card{background:var(--bg-white)!important;color:var(--text-primary)!important;border-color:var(--border-color)!important}
+main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,.checkout,.footer-card{background:var(--nj-card,var(--bg-white))!important;color:var(--nj-text,var(--text-primary))!important;border-color:var(--border-color)!important}
 .hero,.head{background:var(--brand-light)!important;color:var(--text-primary)!important;border:1px solid var(--border-color)!important;box-shadow:none!important}
 
 /* Product thumbnail/media area */
@@ -36,11 +37,11 @@ main,section,.section,.card,.panel,.product-card,.product,.product-detail,.cart,
 
 /* Product text */
 .product-name,.product-title,.product-card h2,.product-card h3,.product-card h4{color:var(--text-secondary)!important}
-.product-description,.description,.muted,.note{color:var(--text-secondary)!important}
+.product-description,.description,.muted,.note{color:var(--nj-muted,var(--text-secondary))!important}
 .price,.product-price,.amount,.total-price{color:var(--text-primary)!important;font-weight:800!important}
 
 /* Non-shopping buttons use brand purple */
-button,.btn,.button,.actions button,.pkg,.call,.free,.cta{background:var(--brand-primary)!important;color:#fff!important;border:1px solid var(--brand-primary)!important;border-radius:var(--radius)!important}
+button,.btn,.button,.actions button,.pkg,.call,.free,.cta{background:var(--brand-primary)!important;color:var(--nj-on-accent,#fff)!important;border:1px solid var(--brand-primary)!important;border-radius:var(--radius)!important}
 button:hover,.btn:hover,.button:hover,.actions button:hover,.pkg:hover,.call:hover,.free:hover,.cta:hover{background:var(--brand-primary)!important;color:#fff!important;filter:brightness(.9)}
 
 /* Shopping CTA — coral is reserved only for purchase actions */
@@ -66,7 +67,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--brand-primary)!import
 hr,.divider{border-color:var(--border-color)!important}
 
 /* Footer */
-footer,.footer{background:var(--brand-primary)!important;color:#fff!important}
+footer,.footer{background:var(--brand-primary)!important;color:var(--nj-on-accent,#fff)!important}
 footer a,.footer a{color:#fff!important}
 
 /* Dark mode: preserve brand identity and shopping CTA colors */
@@ -102,8 +103,6 @@ a,button{min-height:44px}
 body,main,section,.section,.card,.panel,.hero,.head,.product,.product-card,.product-detail,.cart,.checkout,.footer-card{color:var(--nj-text)!important}
 h1,h2,h3,h4,h5,h6,p,li,dt,dd,label,strong,b,small,legend{color:inherit}
 .muted,.note,.description,.subtitle,.help,.hint,.text-muted{color:var(--nj-muted)!important}
-.nj-dark, .nj-dark body, .nj-dark main, .nj-dark section, .nj-dark .section, .nj-dark .card, .nj-dark .panel, .nj-dark .hero, .nj-dark .head, .nj-dark .product, .nj-dark .product-card, .nj-dark .product-detail, .nj-dark .cart, .nj-dark .checkout, .nj-dark .footer-card{color:var(--nj-text)!important}
-.nj-dark{--nj-text:#f8fafc;--nj-muted:#cbd5e1;--nj-on-accent:#fff}
 button,.btn,.button,.theme-btn,.nj-theme-btn{color:var(--nj-on-accent)!important}
 input,select,textarea{color:var(--nj-text)!important}
 #businessTemplates .template{color:var(--nj-text)!important}
