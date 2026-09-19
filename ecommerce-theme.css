@@ -137,3 +137,6 @@ button:active,.btn:active,.button:active,.theme-btn:active,.nj-theme-btn:active,
   .chips.theme-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
   .chips.theme-buttons .theme-btn,.chips.theme-buttons .nj-theme-btn{height:48px!important;font-size:12px!important;padding:6px 8px!important}
 }
+
+/* Theme-safe template text */
+.template b,.template strong,.template .muted,.template .note,.nj-training-item b,.nj-training-item .muted{color:var(--nj-text)!important}
