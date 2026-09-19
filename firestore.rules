@@ -5,17 +5,6 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.admin == true;
     }
 
-    function safeWebsiteData() {
-      return request.resource.data.keys().hasOnly([
-        'name','phone','type','address','title','desc','createdAt','updatedAt',
-        'domain','websiteId','packageName','packageAmount','billing','template','theme'
-      ])
-      && !request.resource.data.keys().hasAny([
-        'status','paid','subscriptionStatus'
-      ])
-      && request.resource.data.websiteId == websiteId;
-    }
-
     match /payments/{paymentId} {
       allow read: if isAdmin();
       allow create: if false;
@@ -23,10 +12,22 @@ service cloud.firestore {
     }
 
     match /websites/{websiteId} {
-      // Builder can create/update only the customer's own safe draft fields.
-      // Protected live/payment fields can never be written by the public client.
+      function safeWebsiteData() {
+        return request.resource.data.keys().hasOnly([
+          'name','phone','type','address','title','desc','createdAt','updatedAt',
+          'domain','websiteId','packageName','packageAmount','billing','template','theme','ownerId'
+        ])
+        && !request.resource.data.keys().hasAny(['status','paid','subscriptionStatus'])
+        && request.resource.data.websiteId == websiteId;
+      }
+      function isOwner() {
+        return request.auth != null
+          && resource.data.ownerId != null
+          && request.auth.uid == resource.data.ownerId
+          && request.resource.data.ownerId == resource.data.ownerId;
+      }
       allow create: if safeWebsiteData();
-      allow update: if safeWebsiteData();
+      allow update: if safeWebsiteData() && (isOwner() || !resource.data.keys().hasAny(['ownerId']));
       allow get: if resource.data.status == 'live';
       allow list: if false;
       allow delete: if isAdmin();
