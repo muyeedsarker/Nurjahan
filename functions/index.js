@@ -39,7 +39,17 @@ exports.reviewPayment = onCall(
         throw new HttpsError('invalid-argument', 'Payment method বা Transaction ID সঠিক নয়।');
       }
 
+      const keyId = Buffer.from(`${method}:${trx}`).toString('base64url').slice(0, 150);
+      const keyRef = db.collection('paymentTrxKeys').doc(keyId);
+
       if (action === 'rejected') {
+        tx.set(keyRef, {
+          paymentId: String(paymentId),
+          method,
+          trxId: trx,
+          status: 'rejected',
+          rejectedAt: FieldValue.serverTimestamp()
+        }, { merge: true });
         tx.update(paymentRef, {
           status: 'rejected',
           reviewedAt: FieldValue.serverTimestamp(),
@@ -116,7 +126,7 @@ exports.submitPayment = onCall(
     const paymentRef = db.collection('payments').doc();
     await db.runTransaction(async (tx) => {
       const keySnap = await tx.get(keyRef);
-      if (keySnap.exists) {
+      if (keySnap.exists && keySnap.data()?.status !== 'rejected') {
         throw new HttpsError('already-exists', 'এই Transaction ID আগে ব্যবহার করা হয়েছে।');
       }
       tx.set(keyRef, {
