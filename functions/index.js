@@ -118,9 +118,14 @@ exports.reviewPayment = onCall(
 exports.submitPayment = onCall(
   { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
+    if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in required.');
     const data = request.data || {};
     const websiteId = String(data.websiteId || '').trim();
     const websiteName = String(data.websiteName || '').trim();
+    const websiteSnap = await db.collection('websites').doc(websiteId).get();
+    if (!websiteSnap.exists || websiteSnap.data().ownerId !== request.auth.uid) {
+      throw new HttpsError('permission-denied', 'এই Website আপনার Account-এর নয়।');
+    }
     const domain = String(data.domain || '').trim();
     const method = String(data.method || '').trim();
     const senderPhone = String(data.senderPhone || '').trim();
