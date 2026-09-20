@@ -395,7 +395,61 @@ function resultBox(){
 async function makeZip(d,id){
  const theme=window.NJ_THEMES?.[d.theme]||{a:'#2563eb',b:'#06b6d4'};
  const slug=(d.name||'nurjahan-website').toLowerCase().replace(/[^a-z0-9\u0980-\u09ff]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'nurjahan-website';
- const html='<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="'+esc(d.desc||d.name)+'"><title>'+esc(d.title||d.name)+'</title><style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:#f6f8fc;color:#172033}.wrap{max-width:980px;margin:auto;padding:18px}.hero{background:linear-gradient(135deg,'+theme.a+','+theme.b+');color:#fff;border-radius:24px;padding:34px;box-shadow:0 18px 55px #0002}.hero h1{margin:0 0 8px;font-size:clamp(30px,7vw,56px)}.card{background:#fff;border-radius:20px;padding:22px;margin-top:16px;box-shadow:0 10px 30px #0000000d}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.item{padding:16px;border:1px solid #e2e8f0;border-radius:15px;background:#f8fafc}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{display:inline-block;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:900;background:'+theme.a+';color:#fff}.muted{color:#64748b}@media(max-width:650px){.grid{grid-template-columns:1fr}}</style></head><body><main class="wrap"><section class="hero"><h1>'+esc(d.title||d.name||'আমার ওয়েবসাইট')+'</h1><p>'+esc(d.type)+'</p></section><section class="card"><h2>✨ আমাদের সম্পর্কে</h2><p>'+esc(d.desc||'আপনার প্রতিষ্ঠানের বিস্তারিত তথ্য এখানে থাকবে।')+'</p></section><section class="card"><h2>🛠️ সেবাসমূহ</h2><div class="grid"><div class="item">✓ মানসম্মত সেবা</div><div class="item">✓ দ্রুত যোগাযোগ</div><div class="item">✓ মোবাইল-ফ্রেন্ডলি</div></div></section><section class="card"><h2>📍 ঠিকানা</h2><p>'+esc(d.address||'বাংলাদেশ')+'</p><h2>📞 যোগাযোগ</h2><p>'+esc(d.phone||'')+'</p><div class="actions">'+(d.phone?'<a class="btn" href="tel:'+esc(d.phone)+'">📞 কল করুন</a>':'')+'</div></section><footer class="card muted">Created with Nurjahan.com • Website ID: '+esc(id)+'</footer></main></body></html>';
+ const html='<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="'+esc(d.desc||d.name)+'"><title>'+esc(d.title||d.name)+'</title><style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:#f6f8fc;color:#172033}.wrap{max-width:980px;margin:auto;padding:18px}.hero{background:linear-gradient(135deg,'+theme.a+','+theme.b+');color:#fff;border-radius:24px;padding:34px;box-shadow:0 18px 55px #0002}.hero h1{margin:0 0 8px;font-size:clamp(30px,7vw,56px)}.card{background:#fff;border-radius:20px;padding:22px;margin-top:16px;box-shadow:0 10px 30px #0000000d}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.item{padding:16px;border:1px solid #e2e8f0;border-radius:15px;background:#f8fafc}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{display:inline-block;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:900;background:'+theme.a+';color:#fff}.muted{color:#64748b}@media(max-width:650px){.grid{grid-template-columns:1fr}}</style></head><body><main class="wrap"><section class="hero"><h1>'+esc(d.title||d.name||'আমার ওয়েবসাইট')+'</h1><p>'+esc(d.type)+'</p></section><section class="card"><h2>✨ আমাদের সম্পর্কে</h2><p>'+esc(d.desc||'আপনার প্রতিষ্ঠানের বিস্তারিত তথ্য এখানে থাকবে।')+'</p></section><section class="card"><h2>🛠️ সেবাসমূহ</h2><div class="grid"><div class="item">✓ মানসম্মত সেবা</div><div class="item">✓ দ্রুত যোগাযোগ</div><div class="item">✓ মোবাইল-ফ্রেন্ডলি</div></div></section><section class="card"><h2>📍 ঠিকানা</h2><p>'+esc(d.address||'বাংলাদেশ')+'</p><h2>📞 যোগাযোগ</h2><p>'+esc(d.phone||'')+'</p><div class="actions">'+(d.phone?'<a class="btn" href="tel:'+esc(d.phone)+'">📞 কল করুন</a>':'')+'</div></section><footer class="card muted">Created with Nurjahan.com • Website ID: '+esc(id)+'</footer></main>
+<style id="nj-smart-business-banner-v2">
+.nj-smart-business-banner{position:relative;overflow:hidden;margin:14px 0 18px;padding:28px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#0f172a,#2563eb 55%,#06b6d4);box-shadow:0 20px 55px rgba(15,23,42,.18);isolation:isolate}
+.nj-smart-business-banner:before,.nj-smart-business-banner:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);opacity:.28;z-index:-1}
+.nj-smart-business-banner:before{width:240px;height:240px;right:-80px;top:-100px;background:#fff}
+.nj-smart-business-banner:after{width:180px;height:180px;left:-70px;bottom:-90px;background:#38bdf8}
+.nj-sbb-kicker{display:inline-flex;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);font-size:11px;font-weight:900;margin-bottom:10px}
+.nj-sbb-title{font-size:clamp(26px,5vw,48px);line-height:1.12;margin:0 0 9px;font-weight:950;letter-spacing:-.8px}
+.nj-sbb-text{max-width:760px;margin:0;color:rgba(255,255,255,.9);font-size:15px}
+.nj-sbb-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.nj-sbb-actions a,.nj-sbb-actions button{display:inline-flex;align-items:center;justify-content:center;padding:11px 15px;border-radius:12px;text-decoration:none;border:1px solid rgba(255,255,255,.25);font-weight:900}
+.nj-sbb-primary{background:#fff;color:#1d4ed8}.nj-sbb-secondary{background:rgba(255,255,255,.1);color:#fff}
+.nj-sbb-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.nj-sbb-meta span{font-size:11px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18)}
+@media(max-width:520px){.nj-smart-business-banner{padding:22px 17px;border-radius:20px}.nj-sbb-title{font-size:28px}.nj-sbb-text{font-size:13px}}
+</style>
+<script id="nj-smart-business-banner-v2">
+(function(){
+const profiles={
+ "Restaurant":["আপনার স্বাদের ঠিকানা—এখন অনলাইনে!","মেনু, অফার, লোকেশন ও অর্ডারের তথ্য সুন্দরভাবে তুলে ধরুন।","🍽️ Menu","📍 Location","🛒 Order"],
+ "Pharmacy":["আপনার স্বাস্থ্যসেবার নির্ভরযোগ্য ডিজিটাল ঠিকানা","পণ্য, সেবা, যোগাযোগ ও প্রয়োজনীয় তথ্য গ্রাহকের কাছে সহজে পৌঁছে দিন।","💊 Products","📞 Contact","📍 Location"],
+ "Fashion":["আপনার স্টাইল, আপনার ব্র্যান্ড—এবার অনলাইনে আরও আকর্ষণীয়","কালেকশন, নতুন পণ্য ও ব্র্যান্ডের গল্পকে একটি আধুনিক ডিজিটাল পরিচয়ে সাজান।","👗 Collection","✨ New Arrivals","🛍️ Shop"],
+ "Real Estate":["আপনার স্বপ্নের ঠিকানা খুঁজে নিন সহজেই","প্রপার্টি, সুবিধা, লোকেশন ও যোগাযোগের তথ্য একটি সুন্দর উপস্থাপনায় দেখান।","🏠 Properties","📍 Location","📞 Contact"],
+ "Education":["শিক্ষার প্রতিষ্ঠান—এবার আরও আধুনিক ডিজিটাল পরিচয়ে","কোর্স, ভর্তি, নোটিশ, ফলাফল ও যোগাযোগের তথ্য এক জায়গায় সাজান।","🎓 Courses","📝 Admission","📢 Notice"],
+ "Health":["আপনার স্বাস্থ্যসেবার আধুনিক অনলাইন ঠিকানা","সেবা, বিশেষজ্ঞ, সময়সূচি ও যোগাযোগের তথ্য সহজে উপস্থাপন করুন।","🩺 Services","📅 Appointment","📞 Contact"],
+ "IT":["আপনার প্রযুক্তি ব্যবসার জন্য স্মার্ট ডিজিটাল পরিচয়","সেবা, সমাধান, portfolio ও যোগাযোগকে একটি professional presentation-এ আনুন।","💻 Services","🚀 Solutions","📞 Contact"],
+ "Grocery":["আপনার প্রয়োজনীয় পণ্য—এখন আরও সহজে অনলাইনে","পণ্য, অফার, যোগাযোগ ও ডেলিভারি তথ্য সুন্দরভাবে তুলে ধরুন।","🛒 Products","🏷️ Offers","🚚 Delivery"],
+ "Beauty":["আপনার সৌন্দর্যসেবার premium digital identity","সেবা, gallery, package ও booking তথ্য আকর্ষণীয়ভাবে উপস্থাপন করুন।","💄 Services","🖼️ Gallery","📅 Booking"],
+ "Professional":["আপনার ব্যবসার জন্য একটি আধুনিক ডিজিটাল পরিচয়","আপনার সেবা, ব্র্যান্ড ও যোগাযোগের তথ্যকে professional website experience-এ সাজান।","✨ Services","📱 Mobile Ready","🔎 SEO Ready"]
+};
+function profile(type){
+ const key=Object.keys(profiles).find(k=>type&&type.toLowerCase().includes(k.toLowerCase()));
+ return profiles[key]||profiles.Professional;
+}
+function boot(){
+ if(document.getElementById("nj-smart-business-banner"))return;
+ const hero=document.querySelector(".hero"); if(!hero)return;
+ const el=document.createElement("section");el.id="nj-smart-business-banner";el.className="nj-smart-business-banner";
+ el.innerHTML='<span class="nj-sbb-kicker">🤖 AI SMART BUSINESS BANNER</span><h2 class="nj-sbb-title"></h2><p class="nj-sbb-text"></p><div class="nj-sbb-actions"><a class="nj-sbb-primary" href="#builder">🚀 এখনই শুরু করুন</a><button class="nj-sbb-secondary" type="button" id="nj-sbb-refresh">🔄 Banner পরিবর্তন</button></div><div class="nj-sbb-meta"></div>';
+ hero.insertAdjacentElement("afterend",el);
+ const title=el.querySelector(".nj-sbb-title"),text=el.querySelector(".nj-sbb-text"),meta=el.querySelector(".nj-sbb-meta");
+ function render(){
+   const type=document.getElementById("type")?.value||"Professional";
+   const p=profile(type);
+   title.textContent=p[0];text.textContent=p[1];meta.innerHTML=p.slice(2).map(x=>"<span>"+x+"</span>").join("");
+   const accent=getComputedStyle(document.documentElement).getPropertyValue("--nj-a").trim();
+   if(accent)el.style.background="linear-gradient(135deg,#0f172a,"+accent+" 55%,#06b6d4)";
+ }
+ render();
+ document.getElementById("type")?.addEventListener("change",render);
+ document.getElementById("nj-sbb-refresh")?.addEventListener("click",render);
+}
+document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot):boot();
+})();
+</script></body></html>';
  if(!window.JSZip){await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)})}
  const zip=new JSZip();zip.file('index.html',html);zip.file('README.txt','Nurjahan.com generated website\nWebsite ID: '+id+'\nOpen index.html to view the website.');
  const blob=await zip.generateAsync({type:'blob'});
