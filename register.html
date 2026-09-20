@@ -1,1 +1,28 @@
-<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="ecommerce-theme.css"><title>Nurjahan.com — Theme Setup</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f8fbff;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#0f172a}.box{width:min(430px,calc(100% - 32px));padding:28px;border:1px solid #dbeafe;border-radius:24px;background:#fff;box-shadow:0 20px 60px #0f172a18;text-align:center}.icon{font-size:46px}.ok{color:#059669;font-weight:900}.wait{color:#2563eb;font-weight:900}</style><script src="./themes.js"></script><script src="./theme-system.js"></script></head><body><main class="box"><div class="icon">🎨</div><h1>Nurjahan.com</h1><p id="status" class="wait">১৫টি Theme চালু করা হচ্ছে…</p></main><script>const s=document.getElementById('status');(async()=>{try{if(!('serviceWorker'in navigator))throw new Error('Service Worker unsupported');const reg=await navigator.serviceWorker.register('./sw.js',{scope:'./'});await reg.update();s.textContent='✅ ১৫টি Theme সফলভাবে চালু হয়েছে।';s.className='ok';setTimeout(()=>location.href='./index.html?themes=15',900)}catch(e){s.textContent='⚠️ Theme Setup চালু হয়নি। আবার চেষ্টা করুন।';s.className='wait';console.error(e)}})();</script><script src="./locale-content.js?v=3"></script><script src="./menu-locale.js?v=3"></script></body></html>
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nurjahan.com — Account</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#eff6ff,#f8fafc);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#0f172a}
+.box{width:min(440px,calc(100% - 28px));padding:24px;border:1px solid #dbeafe;border-radius:22px;background:#fff;box-shadow:0 20px 60px rgba(15,23,42,.12)}
+h1{margin:0 0 6px}.muted{color:#64748b;font-size:14px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:16px 0 10px}.tabs button,.submit{border:0;border-radius:11px;padding:12px;font-weight:900;cursor:pointer}.tabs button{background:#eef2ff;color:#3730a3}.tabs button.active{background:#2563eb;color:#fff}
+label{display:block;font-weight:800;margin:10px 0 5px}input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;font-size:16px}.submit{width:100%;margin-top:14px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}.status{margin-top:12px;padding:10px;border-radius:10px;background:#f1f5f9;font-size:13px}.back{display:block;margin-top:14px;text-align:center;color:#2563eb;text-decoration:none;font-weight:800}
+</style>
+</head>
+<body><main class="box">
+<div style="font-size:40px">👤</div><h1>Nurjahan.com Account</h1><p class="muted">আপনার ওয়েবসাইট ও সার্ভিস ব্যবস্থাপনার জন্য অ্যাকাউন্ট তৈরি বা Sign in করুন।</p>
+<div class="tabs"><button id="loginTab" class="active" type="button">🔑 Sign in</button><button id="signupTab" type="button">✨ Create account</button></div>
+<form id="form"><label>Email</label><input id="email" type="email" autocomplete="email" required><label>Password</label><input id="password" type="password" minlength="6" autocomplete="current-password" required><button class="submit" id="submit" type="submit">🔑 Sign in</button></form>
+<div id="status" class="status">Firebase Authentication প্রস্তুত থাকলে এখান থেকেই অ্যাকাউন্ট চালু হবে।</div>
+<a class="back" href="index.html">← ওয়েবসাইট নির্মাতায় ফিরে যান</a>
+</main>
+<script type="module">
+import{auth,signInWithEmailAndPassword,createUserWithEmailAndPassword,onAuthStateChanged}from'./firebase-config.js';
+const $=id=>document.getElementById(id);let mode='login';
+$('loginTab').onclick=()=>{mode='login';$('loginTab').classList.add('active');$('signupTab').classList.remove('active');$('submit').textContent='🔑 Sign in'};
+$('signupTab').onclick=()=>{mode='signup';$('signupTab').classList.add('active');$('loginTab').classList.remove('active');$('submit').textContent='✨ Create account'};
+$('form').onsubmit=async e=>{e.preventDefault();$('submit').disabled=true;$('status').textContent='⏳ কাজ হচ্ছে...';try{const email=$('email').value.trim(),password=$('password').value;const cred=mode==='login'?await signInWithEmailAndPassword(auth,email,password):await createUserWithEmailAndPassword(auth,email,password);$('status').textContent='✅ অ্যাকাউন্ট প্রস্তুত। UID: '+cred.user.uid;$('submit').disabled=false;}catch(err){$('status').textContent='❌ '+(err?.message||'Authentication failed');$('submit').disabled=false;}};
+onAuthStateChanged(auth,user=>{if(user)$('status').textContent='✅ Signed in: '+user.email;});
+</script>
+</body></html>
