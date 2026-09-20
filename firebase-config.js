@@ -12,7 +12,7 @@ const firebaseConfig = {
   measurementId: "G-ZZ6MLRZ0H5"
 };
 const app = initializeApp(firebaseConfig);
-const APP_CHECK_SITE_KEY = "REPLACE_WITH_NURJAHAN_RECAPTCHA_ENTERPRISE_SITE_KEY";
+const APP_CHECK_SITE_KEY = "6Lej-cUtAAAAAFFoaA7R3A5G1YGJXdBPieVCQmEo";
 if (!APP_CHECK_SITE_KEY.startsWith("REPLACE_")) {
   initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true });
 }
