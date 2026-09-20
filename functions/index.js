@@ -17,7 +17,7 @@ function screenPaymentInput({ method, senderPhone, trxId, packageAmount }) {
   const amount = Number(packageAmount || 0);
   const checks = {
     method: ['bkash','nagad'].includes(String(method || '').toLowerCase()),
-    senderFormat: /^(?:\\+?8801|01)\\d{9}$/.test(sender),
+    senderFormat: /^(?:\+?8801|01)\d{9}$/.test(sender),
     trxFormat: /^[A-Z0-9-]{6,40}$/.test(trx),
     amount: [399,1999].includes(amount)
   };
