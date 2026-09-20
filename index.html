@@ -52,7 +52,7 @@ async function saveToFirebase(mode){
 }
 window.saveData=()=>saveToFirebase('save');
 window.publish=()=>saveToFirebase('publish');
-</script><style id="nj-theme-overrides">:root{--nj-a:#2563eb;--nj-b:#06b6d4;--nj-bg:#fff;--nj-card:#fff;--nj-soft:#f8fafc;--nj-text:#0f172a}body{background:var(--nj-bg);color:var(--nj-text)}.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--nj-a) 12%,white),var(--nj-bg) 65%,color-mix(in srgb,var(--nj-b) 8%,white));border-color:color-mix(in srgb,var(--nj-a) 25%,white)}.hero b{color:var(--nj-a)}.nav,.card,.preview,.ai-panel{background:var(--nj-card)}.nav a:hover{background:color-mix(in srgb,var(--nj-a) 10%,white);color:var(--nj-a)}.item,.template,.ai-log,.pbox{background:var(--nj-soft)}button,.btn,.ai-launch,.phead{background:var(--nj-a)}.pkg{background:linear-gradient(135deg,var(--nj-a),var(--nj-b))}.chip.theme-btn{border:1px solid color-mix(in srgb,var(--nj-a) 30%,white);background:color-mix(in srgb,var(--nj-a) 8%,white);color:var(--nj-a);min-height:44px}.chip.theme-btn.active{background:var(--nj-a);color:#fff;box-shadow:0 6px 18px color-mix(in srgb,var(--nj-a) 28%,transparent);transform:translateY(-1px)}</style><script src="./themes.js"></script><script src="./theme-system.js"></script><script src="./locale-content.js?v=2"></script><script src="./menu-locale.js?v=2"></script><script>
+</script><style id="nj-theme-overrides">:root{--nj-a:#2563eb;--nj-b:#06b6d4;--nj-bg:#fff;--nj-card:#fff;--nj-soft:#f8fafc;--nj-text:#0f172a}body{background:var(--nj-bg);color:var(--nj-text)}.hero{background:linear-gradient(135deg,color-mix(in srgb,var(--nj-a) 12%,white),var(--nj-bg) 65%,color-mix(in srgb,var(--nj-b) 8%,white));border-color:color-mix(in srgb,var(--nj-a) 25%,white)}.hero b{color:var(--nj-a)}.nav,.card,.preview,.ai-panel{background:var(--nj-card)}.nav a:hover{background:color-mix(in srgb,var(--nj-a) 10%,white);color:var(--nj-a)}.item,.template,.ai-log,.pbox{background:var(--nj-soft)}button,.btn,.ai-launch,.phead{background:var(--nj-a)}.pkg{background:linear-gradient(135deg,var(--nj-a),var(--nj-b))}.chip.theme-btn{border:1px solid color-mix(in srgb,var(--nj-a) 30%,white);background:color-mix(in srgb,var(--nj-a) 8%,white);color:var(--nj-a);min-height:44px}.chip.theme-btn.active{background:var(--nj-a);color:#fff;box-shadow:0 6px 18px color-mix(in srgb,var(--nj-a) 28%,transparent);transform:translateY(-1px)}</style><script src="./business-data.js"></script><script src="./themes.js"></script><script src="./theme-system.js"></script><script src="./locale-content.js?v=2"></script><script src="./menu-locale.js?v=2"></script><script>
 (function(){
  const params=new URLSearchParams(location.search);
  const selected=params.get('category')||localStorage.getItem('njSelectedCategory');
@@ -64,19 +64,8 @@ window.publish=()=>saveToFirebase('publish');
    if(!opt){opt=document.createElement('option');opt.textContent=selected;type.appendChild(opt);}
    type.value=opt.textContent;
  }
- const featureMap={
-   'Electronics':['এআই সহায়তা','Contact','Products','Gallery','এসইও'],
-   'Electrical':['Contact','Services','Gallery','এসইও','WhatsApp'],
-   'Fashion & Clothing':['এআই সহায়তা','Products','Gallery','Offers','এসইও'],
-   'Pharmacy':['এআই সহায়তা','Products','Contact','Health Info','এসইও'],
-   'Restaurant':['Menu','Online Order','Gallery','Contact','Location'],
-   'Doctor / Clinic':['Appointment','Services','Doctor Info','Contact','Location'],
-   'Real Estate':['Property Listings','Gallery','Contact','Location','এসইও'],
-   'Education':['Courses','Admission','Gallery','Contact','এসইও'],
-   'Hotel':['Rooms','বুকিং','Gallery','Location','Contact'],
-   'Travel':['প্যাকেজ','বুকিং','Gallery','Contact','Location']
- };
- const allowed=featureMap[selected]||['এআই সহায়তা','Contact','Services','Gallery','এসইও'];
+ const shared=window.getBusinessData?.(selected);
+ const allowed=shared?.features||['এআই সহায়তা','সেবা','পণ্য/সেবা তথ্য','গ্যালারি','যোগাযোগ','এসইও'];
  document.querySelectorAll('.chip').forEach(ch=>{
    const t=ch.textContent.replace(/^✓\s*/,'').trim();
    ch.style.display=allowed.some(x=>t.toLowerCase().includes(x.toLowerCase()))?'inline-flex':'none';
