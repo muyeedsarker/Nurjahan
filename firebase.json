@@ -11,7 +11,7 @@
       "*.txt",
       "sw-v30*"
     ],
-    "cleanUrls": true,
+    "cleanUrls": false,
     "trailingSlash": false
   },
   "firestore": {
