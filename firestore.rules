@@ -17,7 +17,11 @@ service cloud.firestore {
         && request.resource.data.role == 'user';
       allow read: if request.auth != null && request.auth.uid == userId || isAdmin();
       allow update: if request.auth != null && request.auth.uid == userId
-        && request.resource.data.uid == resource.data.uid;
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'email','displayName','phone','photoURL','updatedAt'
+        ]);
       allow delete: if isAdmin();
     }
 
