@@ -11,6 +11,20 @@ function requireAdmin(request) {
   }
 }
 
+function screenPaymentInput({ method, senderPhone, trxId, packageAmount }) {
+  const sender = String(senderPhone || '').replace(/[^0-9+]/g, '');
+  const trx = String(trxId || '').trim().toUpperCase();
+  const amount = Number(packageAmount || 0);
+  const checks = {
+    method: ['bkash','nagad'].includes(String(method || '').toLowerCase()),
+    senderFormat: /^(?:\\+?8801|01)\\d{9}$/.test(sender),
+    trxFormat: /^[A-Z0-9-]{6,40}$/.test(trx),
+    amount: [399,1999].includes(amount)
+  };
+  const passed = Object.values(checks).filter(Boolean).length;
+  return { status: passed === 4 ? 'screened' : 'flagged', score: Math.round((passed / 4) * 100), checks, providerVerified: false };
+}
+
 exports.reviewPayment = onCall(
   { enforceAppCheck: true, consumeAppCheckToken: true },
   async (request) => {
@@ -136,13 +150,17 @@ exports.submitPayment = onCall(
         status:'pending',
         createdAt:FieldValue.serverTimestamp()
       });
+      const screening = screenPaymentInput({ method, senderPhone, trxId, packageAmount });
       tx.set(paymentRef, {
         websiteId, websiteName, domain, packageName, packageAmount,
         billing, method, senderPhone, trxId, amount:packageAmount,
-        status:'pending', createdAt:FieldValue.serverTimestamp()
+        status:'pending',
+        paymentVerificationStatus:'pending_provider_verification',
+        aiScreening: screening,
+        createdAt:FieldValue.serverTimestamp()
       });
     });
-    return { ok:true, id:paymentRef.id, status:'pending' };
+    return { ok:true, id:paymentRef.id, status:'pending', verificationStatus:'pending_provider_verification', aiScreening: screening };
   }
 );
 
