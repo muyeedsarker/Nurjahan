@@ -135,6 +135,7 @@ exports.submitPayment = onCall(
     const keyId = Buffer.from(`${method.toLowerCase()}:${trxId}`).toString('base64url').slice(0, 150);
     const keyRef = db.collection('paymentTrxKeys').doc(keyId);
     const paymentRef = db.collection('payments').doc();
+    const screening = screenPaymentInput({ method, senderPhone, trxId, packageAmount });
     await db.runTransaction(async (tx) => {
       const keySnap = await tx.get(keyRef);
       if (keySnap.exists) {
@@ -150,7 +151,6 @@ exports.submitPayment = onCall(
         status:'pending',
         createdAt:FieldValue.serverTimestamp()
       });
-      const screening = screenPaymentInput({ method, senderPhone, trxId, packageAmount });
       tx.set(paymentRef, {
         websiteId, websiteName, domain, packageName, packageAmount,
         billing, method, senderPhone, trxId, amount:packageAmount,
