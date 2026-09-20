@@ -28,7 +28,7 @@ service cloud.firestore {
       }
       allow create: if safeWebsiteData();
       allow update: if safeWebsiteData() && (isOwner() || !resource.data.keys().hasAny(['ownerId']));
-      allow get: if resource.data.status == 'live';
+      allow get: if resource.data.status == 'live' || resource.data.status == 'preview';
       allow list: if false;
       allow delete: if isAdmin();
     }
