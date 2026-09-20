@@ -9,7 +9,7 @@
 const themeMap=Object.fromEntries(Object.entries(window.NJ_THEMES||{}).map(([k,t])=>[k,[t.a,t.b]]));
 const tv=themeMap[String(d.theme||'ocean')];if(tv){document.documentElement.style.setProperty('--nj-live-a',tv[0]);document.documentElement.style.setProperty('--nj-live-b',tv[1]);document.body.dataset.njTheme=d.theme||'ocean';}
 if(d.template){document.body.dataset.njTemplate=d.template;}
-if(d.status!=='live'){app.innerHTML='<section class="card"><h2>⏳ ওয়েবসাইট এখনো লাইভ নয়</h2><p class="muted">পেমেন্ট অনুমোদনের পর ওয়েবসাইট চালু হবে।</p></section>';return}const universal=document.getElementById('nj-universal-live');const smartContact=document.getElementById('nj-smart-contact');
+if(d.status!=='live'){app.innerHTML='<section class="card" style="border:1px solid #f59e0b;background:#fffbeb"><h2>👁️ ওয়েবসাইট Preview</h2><p class="muted">এই ওয়েবসাইটটি তৈরি হয়েছে, কিন্তু পেমেন্ট অনুমোদন না হওয়া পর্যন্ত Live Control/Owner Access বন্ধ থাকবে।</p><div style="margin-top:10px;padding:10px;border-radius:10px;background:#fff7ed;color:#9a3412;font-weight:800">💳 Payment verification pending</div></section>'+app.innerHTML}const universal=document.getElementById('nj-universal-live');const smartContact=document.getElementById('nj-smart-contact');
 const template=String(d.template||d.type||'');
 const presetMap={
 'Electronics Store':['🛍️ পণ্যসমূহ','🏷️ দাম ও অফার','🖼️ গ্যালারি','📞 যোগাযোগ'],
