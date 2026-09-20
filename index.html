@@ -298,8 +298,15 @@ async function createNow(){
  const x=buildDraft();
  try{
   const m=await import("./firebase-config.js");
-  const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js");
-  await setDoc(doc(m.db,"websites",x.id),x.data,{merge:true});
+  if(!m.auth?.currentUser){
+   let box=document.getElementById("nj-create-result");
+   if(!box){box=document.createElement("div");box.id="nj-create-result";box.style.cssText="margin-top:14px;padding:16px;border-radius:16px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412";document.getElementById("previewBox")?.appendChild(box);}
+   box.innerHTML="<b>🔐 আগে Account-এ Sign in করুন।</b><p style='margin:6px 0'>Website তৈরি করতে আপনার Nurjahan Account-এ Sign in করা প্রয়োজন।</p><a class='btn' href='register.html'>👤 Account / Sign in</a>";
+   box.scrollIntoView({behavior:"smooth",block:"center"});return;
+  }
+  const {doc,setDoc,serverTimestamp}=await import("https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js");
+  const firestoreData={...x.data,ownerId:m.auth.currentUser.uid,status:"preview",paid:false,subscriptionStatus:"pending_payment",packageName:"Free",createdAt:serverTimestamp(),updatedAt:serverTimestamp()};
+  await setDoc(doc(m.db,"websites",x.id),firestoreData,{merge:true});
   let box=document.getElementById("nj-create-result");
   if(!box){box=document.createElement("div");box.id="nj-create-result";box.style.cssText="margin-top:14px;padding:16px;border-radius:16px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46";document.getElementById("previewBox")?.appendChild(box);}
   const preview="index.html?category="+encodeURIComponent(x.category)+"&template="+encodeURIComponent(x.template);
