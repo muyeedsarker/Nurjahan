@@ -342,7 +342,7 @@ function boot(){
    const themeHtml=themeKeys.map((k,i)=>{const t=themes[k]||{};return '<button type="button" data-theme="'+k+'" title="'+(t.name||k)+'"><i style="background:linear-gradient(135deg,'+(t.a||'#2563eb')+','+(t.b||'#06b6d4')+')"></i><span>'+String((i+1)+'. '+(t.name||k))+'</span></button>';}).join('');
    const colorHtml=colors.map((x,i)=>'<button type="button" data-color-index="'+i+'" title="'+x[2]+'"><i style="background:linear-gradient(135deg,'+x[0]+','+x[1]+')"></i><span>'+(i+1)+'. '+x[2].replace(/^\S+\s/,'')+'</span></button>').join('');
    p.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><b style="font-size:13px">⚙️ দ্রুত সেটিংস</b><button type="button" data-close-settings aria-label="Close">×</button></div>'+
-   '<div class="nj-set-links"><a href="camera.html" title="ক্যামেরা">📷</a><a href="payment.html">💳</a><a href="live.html">📡</a><a href="domain-hosting.html">🌐</a><a href="index.html">🏠</a><button type="button" data-setting-action="notifications">🔔</button><button type="button" data-setting-action="support" title="সহায়তা">🤝</button></div>'+
+   '<div class="nj-set-links"><button type="button" data-setting-action="autocreate" title="বিস্তারিত তথ্য থেকে ওয়েবসাইট তৈরি">🚀</button><a href="camera.html" title="ক্যামেরা">📷</a><a href="payment.html">💳</a><a href="live.html">📡</a><a href="domain-hosting.html">🌐</a><a href="index.html">🏠</a><button type="button" data-setting-action="notifications">🔔</button><button type="button" data-setting-action="support" title="সহায়তা">🤝</button></div>'+
    '<div class="nj-set-lang"><button type="button" data-setting-action="language-bn">🇧🇩 বাংলা</button><button type="button" data-setting-action="language-en">🇬🇧 English</button></div>'+
    '<div class="nj-set-choice"><button type="button" data-open="themes">🎨 Theme <span>৫০</span></button><button type="button" data-open="colors">🌈 Color <span>৫০</span></button></div>'+
    '<div class="nj-set-panel" data-panel="themes"><div class="nj-set-title">🎨 ৫০টি Theme <button type="button" data-back>←</button></div><div class="nj-set-grid">'+themeHtml+'</div></div>'+
@@ -365,4 +365,61 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <script type="module">
 import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase-config.js';
 window.NJAuth={auth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,onAuthStateChanged};
-</script><script id="nj-party-picker">(function(){function bind(){document.querySelectorAll('.nj-party-card').forEach(b=>{b.onclick=()=>{const t=document.getElementById('type');if(t){const o=[...t.options].find(x=>x.text===b.dataset.party);if(o){t.value=o.value;localStorage.setItem('njSelectedCategory',o.value);document.getElementById('builder')?.scrollIntoView({behavior:'smooth',block:'center'});}}};});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();})();</script></body></html>
+</script><script id="nj-party-picker">(function(){function bind(){document.querySelectorAll('.nj-party-card').forEach(b=>{b.onclick=()=>{const t=document.getElementById('type');if(t){const o=[...t.options].find(x=>x.text===b.dataset.party);if(o){t.value=o.value;localStorage.setItem('njSelectedCategory',o.value);document.getElementById('builder')?.scrollIntoView({behavior:'smooth',block:'center'});}}};});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();})();</script><script id="nj-auto-website-create">
+(function(){
+function waitForAuth(auth,ms=2500){
+ return new Promise(resolve=>{
+  if(auth?.currentUser)return resolve(auth.currentUser);
+  let done=false,t;
+  const finish=u=>{if(done)return;done=true;clearTimeout(t);try{unsub?.()}catch(e){}resolve(u||null)};
+  let unsub=null;
+  try{if(auth?.onAuthStateChanged)unsub=auth.onAuthStateChanged(finish)}catch(e){}
+  t=setTimeout(()=>finish(auth?.currentUser||null),ms);
+ });
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function getData(){
+ const g=id=>document.getElementById(id)?.value?.trim()||'';
+ return {
+  name:g('name'),phone:g('phone'),type:document.getElementById('type')?.value||'অন্যান্য',
+  address:g('address'),title:g('title'),desc:g('desc'),
+  template:localStorage.getItem('njSelectedTemplate')||document.getElementById('type')?.value||'Professional Website',
+  theme:localStorage.getItem('njTheme')||'ocean'
+ };
+}
+function resultBox(){
+ let b=document.getElementById('nj-auto-result');
+ if(!b){b=document.createElement('div');b.id='nj-auto-result';b.style.cssText='position:fixed;left:50%;top:12%;transform:translateX(-50%);z-index:20000;width:min(560px,calc(100vw - 24px));padding:18px;border-radius:20px;background:linear-gradient(145deg,#0f172a,#1e40af);color:#fff;box-shadow:0 25px 80px rgba(15,23,42,.35);border:1px solid rgba(255,255,255,.2)';document.body.appendChild(b);}
+ return b;
+}
+async function makeZip(d,id){
+ const theme=window.NJ_THEMES?.[d.theme]||{a:'#2563eb',b:'#06b6d4'};
+ const slug=(d.name||'nurjahan-website').toLowerCase().replace(/[^a-z0-9\u0980-\u09ff]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'nurjahan-website';
+ const html='<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="'+esc(d.desc||d.name)+'"><title>'+esc(d.title||d.name)+'</title><style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:#f6f8fc;color:#172033}.wrap{max-width:980px;margin:auto;padding:18px}.hero{background:linear-gradient(135deg,'+theme.a+','+theme.b+');color:#fff;border-radius:24px;padding:34px;box-shadow:0 18px 55px #0002}.hero h1{margin:0 0 8px;font-size:clamp(30px,7vw,56px)}.card{background:#fff;border-radius:20px;padding:22px;margin-top:16px;box-shadow:0 10px 30px #0000000d}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.item{padding:16px;border:1px solid #e2e8f0;border-radius:15px;background:#f8fafc}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{display:inline-block;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:900;background:'+theme.a+';color:#fff}.muted{color:#64748b}@media(max-width:650px){.grid{grid-template-columns:1fr}}</style></head><body><main class="wrap"><section class="hero"><h1>'+esc(d.title||d.name||'আমার ওয়েবসাইট')+'</h1><p>'+esc(d.type)+'</p></section><section class="card"><h2>✨ আমাদের সম্পর্কে</h2><p>'+esc(d.desc||'আপনার প্রতিষ্ঠানের বিস্তারিত তথ্য এখানে থাকবে।')+'</p></section><section class="card"><h2>🛠️ সেবাসমূহ</h2><div class="grid"><div class="item">✓ মানসম্মত সেবা</div><div class="item">✓ দ্রুত যোগাযোগ</div><div class="item">✓ মোবাইল-ফ্রেন্ডলি</div></div></section><section class="card"><h2>📍 ঠিকানা</h2><p>'+esc(d.address||'বাংলাদেশ')+'</p><h2>📞 যোগাযোগ</h2><p>'+esc(d.phone||'')+'</p><div class="actions">'+(d.phone?'<a class="btn" href="tel:'+esc(d.phone)+'">📞 কল করুন</a>':'')+'</div></section><footer class="card muted">Created with Nurjahan.com • Website ID: '+esc(id)+'</footer></main></body></html>';
+ if(!window.JSZip){await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)})}
+ const zip=new JSZip();zip.file('index.html',html);zip.file('README.txt','Nurjahan.com generated website\nWebsite ID: '+id+'\nOpen index.html to view the website.');
+ const blob=await zip.generateAsync({type:'blob'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Nurjahan-'+slug+'.zip';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+ return a.download;
+}
+async function autoCreate(){
+ const b=resultBox();b.innerHTML='<b style="font-size:18px">⚡ ওয়েবসাইট তৈরি হচ্ছে…</b><p>আপনার দেওয়া তথ্য থেকে Preview link ও ZIP তৈরি করা হচ্ছে।</p>';
+ const d=getData();
+ if(!d.name||!d.phone){b.innerHTML='<b>📝 আগে বিস্তারিত তথ্য পূরণ করুন</b><p>ব্যবসার নাম, মোবাইল, ধরন, ঠিকানা, শিরোনাম ও পরিচিতি লিখে আবার 🚀 চাপুন।</p><button id="nj-auto-go" style="padding:11px 15px;border:0;border-radius:10px;font-weight:900">🧩 Builder-এ যান</button>';document.getElementById('nj-auto-go').onclick=()=>{b.remove();document.getElementById('builder')?.scrollIntoView({behavior:'smooth',block:'center'})};return}
+ try{
+  const m=await import('./firebase-config.js');const user=await waitForAuth(m.auth);
+  if(!user){b.innerHTML='<b>🔐 Account Sign in প্রয়োজন</b><p>Website link তৈরি ও সংরক্ষণ করতে আগে Nurjahan Account-এ Sign in করুন।</p><a href="register.html" style="display:inline-block;padding:11px 15px;border-radius:10px;background:#fff;color:#1d4ed8;font-weight:900;text-decoration:none">👤 Account / Sign in</a>';return}
+  const id=crypto.randomUUID();localStorage.setItem('nurjahanSiteId',id);localStorage.setItem('nurjahanWebsiteData',JSON.stringify(d));
+  const {doc,setDoc,serverTimestamp}=await import('https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js');
+  await setDoc(doc(m.db,'websites',id),{...d,websiteId:id,ownerId:user.uid,status:'preview',paid:false,subscriptionStatus:'pending_payment',packageName:'Free',createdAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});
+  const link=new URL('./live.html?id='+encodeURIComponent(id),location.href).href;
+  const zipName=await makeZip(d,id);
+  b.innerHTML='<b style="font-size:19px">✅ ওয়েবসাইট তৈরি সম্পন্ন!</b><p style="margin:7px 0">Link এবং ZIP ফাইল প্রস্তুত হয়েছে।</p><div style="display:grid;gap:8px"><a target="_blank" rel="noopener" href="'+link+'" style="padding:12px;border-radius:11px;background:#16a34a;color:#fff;text-decoration:none;font-weight:900;text-align:center">🔗 ওয়েবসাইট খুলুন</a><button id="nj-auto-zip" style="padding:12px;border:0;border-radius:11px;background:#fff;color:#1d4ed8;font-weight:900">📦 ZIP আবার ডাউনলোড</button><button id="nj-auto-close" style="padding:10px;border:1px solid #ffffff55;border-radius:11px;background:#ffffff12;color:#fff;font-weight:900">বন্ধ করুন</button></div><small style="display:block;margin-top:9px;word-break:break-all;opacity:.85">'+esc(link)+'</small>';
+  document.getElementById('nj-auto-close').onclick=()=>b.remove();
+  document.getElementById('nj-auto-zip').onclick=()=>makeZip(d,id);
+ }catch(e){console.error(e);b.innerHTML='<b>❌ তৈরি করা যায়নি</b><p>'+esc(e?.message||String(e))+'</p><button id="nj-auto-close" style="padding:10px 14px;border:0;border-radius:10px">বন্ধ করুন</button>';document.getElementById('nj-auto-close').onclick=()=>b.remove();}
+}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-setting-action="autocreate"]');if(a){e.preventDefault();autoCreate()}});
+window.njAutoCreateWebsite=autoCreate;
+})();
+</script></body></html>
