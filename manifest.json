@@ -1,0 +1,12 @@
+{
+  "name": "Nurjahan.com — AI Website Builder",
+  "short_name": "Nurjahan",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "description": "Create modern mobile-friendly websites with Nurjahan.com",
+  "lang": "bn",
+  "dir": "ltr",
+  "icons": []
+}
