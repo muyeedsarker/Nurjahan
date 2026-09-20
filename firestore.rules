@@ -15,10 +15,14 @@ service cloud.firestore {
       function safeWebsiteData() {
         return request.resource.data.keys().hasOnly([
           'name','phone','type','address','title','desc','createdAt','updatedAt',
-          'domain','websiteId','packageName','packageAmount','billing','template','theme','ownerId'
+          'domain','websiteId','packageName','packageAmount','billing','template','theme',
+          'ownerId','status','paid','subscriptionStatus'
         ])
-        && !request.resource.data.keys().hasAny(['status','paid','subscriptionStatus'])
-        && request.resource.data.websiteId == websiteId;
+        && request.resource.data.websiteId == websiteId
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.status == 'preview'
+        && request.resource.data.paid == false
+        && request.resource.data.subscriptionStatus == 'pending_payment';
       }
       function isOwner() {
         return request.auth != null
@@ -26,8 +30,8 @@ service cloud.firestore {
           && request.auth.uid == resource.data.ownerId
           && request.resource.data.ownerId == resource.data.ownerId;
       }
-      allow create: if safeWebsiteData();
-      allow update: if safeWebsiteData() && (isOwner() || !resource.data.keys().hasAny(['ownerId']));
+      allow create: if request.auth != null && safeWebsiteData();
+      allow update: if request.auth != null && safeWebsiteData() && isOwner();
       allow get: if resource.data.status == 'live' || resource.data.status == 'preview';
       allow list: if false;
       allow delete: if isAdmin();
