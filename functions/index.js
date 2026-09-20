@@ -126,6 +126,10 @@ exports.submitPayment = onCall(
     if (!websiteSnap.exists || websiteSnap.data().ownerId !== request.auth.uid) {
       throw new HttpsError('permission-denied', 'এই Website আপনার Account-এর নয়।');
     }
+    const website = websiteSnap.data() || {};
+    if (website.status !== 'preview' || website.paid === true || website.subscriptionStatus !== 'pending_payment') {
+      throw new HttpsError('failed-precondition', 'এই Website-এর জন্য নতুন Payment এখন গ্রহণ করা যাবে না।');
+    }
     const domain = String(data.domain || '').trim();
     const method = String(data.method || '').trim();
     const senderPhone = String(data.senderPhone || '').trim();
