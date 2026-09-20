@@ -18,6 +18,11 @@
     let n=0;const timer=setInterval(()=>{if(trySelect()||++n>50)clearInterval(timer)},200);
   }
   function mount(){
+    // Language is controlled only from Settings; do not create a separate floating language button.
+    window.setLanguage=applyLang;
+    const saved=localStorage.getItem('njLanguage');
+    if(saved) applyLang(saved);
+    return;
     const host=document.querySelector('.nj-premium-settings')||document.body;
     if(!host||host.dataset.localeReady)return; host.dataset.localeReady='1';
     const css=document.createElement('style');css.textContent=`.nj-locale-item{position:fixed;width:42px;height:42px;border-radius:50%;border:1px solid color-mix(in srgb,var(--nj-a,#2563eb) 35%,#cbd5e1);background:var(--nj-card,#fff);color:var(--nj-a,#2563eb);box-shadow:0 7px 18px #0003;display:flex;align-items:center;justify-content:center;flex-direction:column;font:900 14px system-ui,'Noto Sans Bengali',sans-serif;opacity:0;pointer-events:none;transform:scale(.25);transition:.3s cubic-bezier(.34,1.56,.64,1);z-index:10064}.nj-locale-item small{font-size:5.5px;line-height:1}.nj-locale-open .nj-locale-item{opacity:1;pointer-events:auto;transform:translate(var(--x),var(--y)) scale(1)}.nj-locale-view{position:fixed;right:58px;bottom:54px;width:min(300px,calc(100vw - 70px));max-height:62vh;overflow:auto;padding:12px;border:1px solid color-mix(in srgb,var(--nj-a,#2563eb) 35%,#cbd5e1);border-radius:16px;background:var(--nj-card,#fff);color:var(--text-primary,#111);box-shadow:0 16px 45px #0004;z-index:10065;font:700 12px system-ui,'Noto Sans Bengali',sans-serif}.nj-locale-view[hidden]{display:none}.nj-locale-view h3{margin:0 0 8px;color:var(--nj-a,#2563eb)}.nj-locale-view button{width:100%;padding:8px;margin:3px 0;border:1px solid var(--nj-a,#2563eb);border-radius:8px;background:var(--nj-soft,#f8fafc);color:var(--nj-a,#2563eb);font-weight:800;text-align:left}.nj-locale-view .selected{outline:2px solid var(--nj-a,#2563eb)}.nj-locale-close{float:right!important;width:28px!important;border-radius:50%!important;text-align:center!important;padding:4px!important;background:var(--nj-a,#2563eb)!important;color:#fff!important}@media(max-width:520px){.nj-locale-item{width:38px;height:38px;font-size:13px}.nj-locale-view{right:50px;bottom:50px;width:min(275px,calc(100vw - 60px))}}`;document.head.appendChild(css);
