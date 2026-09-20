@@ -18,11 +18,11 @@ label{display:block;font-weight:800;margin:10px 0 5px}input{width:100%;padding:1
 <a class="back" href="index.html">← ওয়েবসাইট নির্মাতায় ফিরে যান</a>
 </main>
 <script type="module">
-import{auth,signInWithEmailAndPassword,createUserWithEmailAndPassword,onAuthStateChanged}from'./firebase-config.js';
+import{auth,db,signInWithEmailAndPassword,createUserWithEmailAndPassword,onAuthStateChanged}from'./firebase-config.js';import{doc,setDoc,serverTimestamp}from'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
 const $=id=>document.getElementById(id);let mode='login';
 $('loginTab').onclick=()=>{mode='login';$('loginTab').classList.add('active');$('signupTab').classList.remove('active');$('submit').textContent='🔑 Sign in'};
 $('signupTab').onclick=()=>{mode='signup';$('signupTab').classList.add('active');$('loginTab').classList.remove('active');$('submit').textContent='✨ Create account'};
-$('form').onsubmit=async e=>{e.preventDefault();$('submit').disabled=true;$('status').textContent='⏳ কাজ হচ্ছে...';try{const email=$('email').value.trim(),password=$('password').value;const cred=mode==='login'?await signInWithEmailAndPassword(auth,email,password):await createUserWithEmailAndPassword(auth,email,password);$('status').textContent='✅ অ্যাকাউন্ট প্রস্তুত। UID: '+cred.user.uid;$('submit').disabled=false;}catch(err){$('status').textContent='❌ '+(err?.message||'Authentication failed');$('submit').disabled=false;}};
+$('form').onsubmit=async e=>{e.preventDefault();$('submit').disabled=true;$('status').textContent='⏳ কাজ হচ্ছে...';try{const email=$('email').value.trim(),password=$('password').value;const cred=mode==='login'?await signInWithEmailAndPassword(auth,email,password):await createUserWithEmailAndPassword(auth,email,password);if(mode==='signup'){await setDoc(doc(db,'users',cred.user.uid),{uid:cred.user.uid,email:cred.user.email,role:'user',createdAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});$('status').textContent='✅ অ্যাকাউন্ট তৈরি হয়েছে। Nurjahan.com-এ নেওয়া হচ্ছে...';setTimeout(()=>location.href='index.html',700)}else{$('status').textContent='✅ Sign in সফল। Nurjahan.com-এ নেওয়া হচ্ছে...';setTimeout(()=>location.href='index.html',500)}$('submit').disabled=false;}catch(err){$('status').textContent='❌ '+(err?.message||'Authentication failed');$('submit').disabled=false;}};
 onAuthStateChanged(auth,user=>{if(user)$('status').textContent='✅ Signed in: '+user.email;});
 </script>
 </body></html>
