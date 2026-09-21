@@ -154,16 +154,16 @@ body{font-size:16px}
 @keyframes njFreeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 @media(max-width:700px){#nj-settings-btn{left:12px;top:78px}}
 </style>
-<script id="nj-settings-free-position-v1-script">
+<script id="nj-settings-free-position-v2-script">
 (()=>{const key='njSettingsPosition';function init(){const b=document.getElementById('nj-settings-btn');if(!b)return;
  let p;try{p=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}
  if(p&&Number.isFinite(p.x)&&Number.isFinite(p.y)){b.style.left=Math.max(4,Math.min(innerWidth-b.offsetWidth-4,p.x))+'px';b.style.top=Math.max(4,Math.min(innerHeight-b.offsetHeight-4,p.y))+'px'}
  b.classList.add('nj-settings-placed');
- let drag=false,sx=0,sy=0,ox=0,oy=0;
- const down=e=>{if(e.button!==undefined&&e.button!==0)return;drag=true;b.classList.add('nj-dragging');const q=e.touches?.[0]||e;sx=q.clientX;sy=q.clientY;const r=b.getBoundingClientRect();ox=r.left;oy=r.top;e.preventDefault()};
- const move=e=>{if(!drag)return;const q=e.touches?.[0]||e;const x=Math.max(4,Math.min(innerWidth-b.offsetWidth-4,ox+q.clientX-sx));const y=Math.max(4,Math.min(innerHeight-b.offsetHeight-4,oy+q.clientY-sy));b.style.left=x+'px';b.style.top=y+'px';e.preventDefault()};
- const up=()=>{if(!drag)return;drag=false;b.classList.remove('nj-dragging');localStorage.setItem(key,JSON.stringify({x:parseFloat(b.style.left)||ox,y:parseFloat(b.style.top)||oy}))};
- b.addEventListener('mousedown',down);b.addEventListener('touchstart',down,{passive:false});window.addEventListener('mousemove',move,{passive:false});window.addEventListener('touchmove',move,{passive:false});window.addEventListener('mouseup',up);window.addEventListener('touchend',up);
+ let drag=false,moved=false,sx=0,sy=0,ox=0,oy=0;
+ const down=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;drag=true;moved=false;sx=e.clientX;sy=e.clientY;const r=b.getBoundingClientRect();ox=r.left;oy=r.top;b.setPointerCapture?.(e.pointerId)};
+ const move=e=>{if(!drag)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(!moved&&Math.hypot(dx,dy)<6)return;moved=true;b.classList.add('nj-dragging');const x=Math.max(4,Math.min(innerWidth-b.offsetWidth-4,ox+dx));const y=Math.max(4,Math.min(innerHeight-b.offsetHeight-4,oy+dy));b.style.left=x+'px';b.style.top=y+'px';e.preventDefault()};
+ const up=e=>{if(!drag)return;drag=false;b.classList.remove('nj-dragging');if(moved){e.preventDefault();localStorage.setItem(key,JSON.stringify({x:parseFloat(b.style.left)||ox,y:parseFloat(b.style.top)||oy}))}};
+ b.addEventListener('pointerdown',down);b.addEventListener('pointermove',move);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);
 }document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init()})();
 </script><style id="nj-settings-mobile-polish-v2">
 #nj-settings-btn{max-width:110px!important;min-width:34px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;box-shadow:0 8px 22px rgba(15,23,42,.22)!important}
