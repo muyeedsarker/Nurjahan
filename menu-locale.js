@@ -17,6 +17,8 @@
     const trySelect=()=>{const sel=document.querySelector('.goog-te-combo');if(!sel)return false;const opt=[...sel.options].find(o=>o.value===code);if(!opt)return false;sel.value=code;sel.dispatchEvent(new Event('change'));document.cookie='googtrans=/bn/'+code+';path=/';return true;};
     let n=0;const timer=setInterval(()=>{if(trySelect()||++n>50)clearInterval(timer)},200);
   }
+  window.njExternalTranslate=function(code){ if(code==='en') globalTranslate('en'); };
+  window.addEventListener('nurjahan:languagechange',e=>{ if(e.detail?.language==='en') setTimeout(()=>window.njExternalTranslate('en'),350); });
   function mount(){
     // Language is controlled only from Settings; do not create a separate floating language button.
     window.setLanguage=window.setLanguage||applyLang;
