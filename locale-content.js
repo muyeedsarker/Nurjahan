@@ -90,3 +90,16 @@
   const saved=localStorage.getItem('njLanguage')||'bn';
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>translate(saved));else translate(saved);
 })();
+/* Settings language bridge */
+(function(){
+  const translate = window.nurjahanTranslate;
+  window.setLanguage = function(code){
+    const lang=String(code||'bn').toLowerCase();
+    localStorage.setItem('njLanguage',lang);
+    document.documentElement.lang=lang;
+    document.documentElement.dir=['ar','ur'].includes(lang)?'rtl':'ltr';
+    if(typeof translate==='function') translate(lang);
+    window.dispatchEvent(new CustomEvent('nurjahan:languagechange',{detail:{language:lang}}));
+    return lang;
+  };
+})();
