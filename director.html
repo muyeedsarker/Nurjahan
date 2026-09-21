@@ -49,11 +49,31 @@ footer{text-align:center;padding:18px 10px;color:var(--muted);border-top:1px sol
 <p>Nurjahan.com-এর উদ্দেশ্য হলো প্রযুক্তিকে সহজ করে সাধারণ মানুষ, উদ্যোক্তা, ছোট ব্যবসা ও বিভিন্ন প্রতিষ্ঠানের জন্য ওয়েবসাইট তৈরির প্রক্রিয়াকে আরও সহজলভ্য করা।</p>
 <p class="quote">“প্রযুক্তি যেন শুধু বিশেষজ্ঞদের জন্য না থাকে—সহজভাবে সবাই যেন নিজের ডিজিটাল পরিচয় তৈরি করতে পারে, Nurjahan.com-এর মূল উদ্দেশ্য সেই পথকে সহজ করা।”</p>
 <div class="info">
-<div class="box"><b>ঠিকানা (বাংলা)</b>সিয়াম মেডিকেল হল-২<br>নতুন মসজিদ সংলগ্ন, লেবুবাগান, হাড়িনাল, জয়দেবপুর, গাজীপুর।</div>
-<div class="box"><b>Address (English)</b>Siam Medical Hall-2,<br>Adjacent to New Mosque, Lebubagan, Harinal, Joydebpur, Gazipur, Bangladesh.</div>
+<div class="box" id="nj-address-box"><b id="nj-address-label">ঠিকানা</b><span id="nj-address">সিয়াম মেডিকেল হল-২<br>নতুন মসজিদ সংলগ্ন, লেবুবাগান, হাড়িনাল, জয়দেবপুর, গাজীপুর।</span></div>
+<div class="box"><b id="nj-phone-label">মোবাইল নং</b><a id="nj-phone" href="tel:01976672707" style="color:inherit;text-decoration:none;font-weight:800">০১৯৭৬৬৭২৭০৭</a></div>
 </div>
 </main>
 <footer>তারিখঃ ২১ সেপ্টেম্বর, ২০২৬<br><strong>মোঃ আব্দুল মুঈদ সরকার</strong><br>পরিচালক ও প্রতিষ্ঠাতা · Nurjahan.com</footer>
 </div>
+<script>
+(function(){
+  const lang=localStorage.getItem('njLanguage')==='en'?'en':'bn';
+  const address=document.getElementById('nj-address');
+  const label=document.getElementById('nj-address-label');
+  const phoneLabel=document.getElementById('nj-phone-label');
+  const phone=document.getElementById('nj-phone');
+  if(lang==='en'){
+    label.textContent='Address';
+    address.innerHTML='Siam Medical Hall-2<br>Adjacent to New Mosque, Lebubagan, Harinal, Joydebpur, Gazipur, Bangladesh.';
+    phoneLabel.textContent='Mobile No.';
+    phone.textContent='01976672707';
+  }else{
+    label.textContent='ঠিকানা';
+    address.innerHTML='সিয়াম মেডিকেল হল-২<br>নতুন মসজিদ সংলগ্ন, লেবুবাগান, হাড়িনাল, জয়দেবপুর, গাজীপুর।';
+    phoneLabel.textContent='মোবাইল নং';
+    phone.textContent='০১৯৭৬৬৭২৭০৭';
+  }
+})();
+</script>
 </body>
 </html>
