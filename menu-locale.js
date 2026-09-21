@@ -19,7 +19,7 @@
   }
   function mount(){
     // Language is controlled only from Settings; do not create a separate floating language button.
-    window.setLanguage=applyLang;
+    window.setLanguage=window.setLanguage||applyLang;
     const saved=localStorage.getItem('njLanguage');
     if(saved) applyLang(saved);
     return;
